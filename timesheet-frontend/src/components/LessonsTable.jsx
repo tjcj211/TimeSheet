@@ -14,7 +14,7 @@ class LessonsTable extends Component {
 		],
 	};
 	async componentDidMount() {
-		const { data } = await getLessons(
+		const { data } = await getProfessorLessons(
 			this.props.match.params.id,
 			this.props.match.params.classId
 		);

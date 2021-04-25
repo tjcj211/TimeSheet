@@ -29,7 +29,9 @@ class ClassesTable extends Component {
 		],
 	};
 	async componentDidMount() {
-		const { data } = await getClasses(this.props.match.params.id);
+		const { data } = await getProfessorClasses(
+			this.props.match.params.id
+		);
 		this.setState({ classes: data });
 	}
 	render() {

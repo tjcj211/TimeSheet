@@ -13,7 +13,11 @@ class LessonsTable extends Component {
 	};
 	async componentDidMount() {
 		const { professorId, classId, lessonId } = this.props;
-		const { data } = await getRecords(professorId, classId, lessonId);
+		const { data } = await getProfessorRecords(
+			professorId,
+			classId,
+			lessonId
+		);
 		this.setState({ record: data });
 	}
 	render() {

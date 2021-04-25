@@ -19,19 +19,19 @@ function recordUrl(id, classId, lessonId) {
 	return `${apiEndpoint}/${id}/classes/${classId}/lessons/${lessonId}`;
 }
 
-export function getClasses(professorId) {
+export function getProfessorClasses(professorId) {
 	return http.get(classesUrl(professorId));
 }
 
-export function getClass(professorId, classId) {
+export function getProfessorClass(professorId, classId) {
 	return http.get(classUrl(professorId, classId));
 }
 
-export function getLessons(professorId, classId) {
+export function getProfessorLessons(professorId, classId) {
 	return http.get(lessonUrl(professorId, classId));
 }
 
-export function getRecords(professorId, classId, lessonId) {
+export function getProfessorRecords(professorId, classId, lessonId) {
 	return http.get(recordUrl(professorId, classId, lessonId));
 }
 
