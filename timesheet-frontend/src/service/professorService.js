@@ -40,14 +40,14 @@ export function getProfessorRecords(professorId, classId, lessonId) {
 }
 
 //Just an example right now
-export function saveClass(clas) {
+export function saveClass(professorId, clas) {
 	if (clas._id) {
 		const body = { ...clas };
 		delete body._id;
 		return http.put(classesUrl(clas._id), body);
 	}
 
-	return http.post(apiEndpoint, clas);
+	return http.post(classesUrl(professorId), clas);
 }
 
 //Just an example right now
