@@ -3,7 +3,7 @@ import { getProfessorLessons } from '../service/professorService';
 import RecordsTable from './RecordsTable';
 class LessonsTable extends Component {
 	state = {
-		lesson: [
+		lessons: [
 			{
 				record: ['606f90cdce745d49dc11c23e'],
 				_id: '606f909bce745d49dc11c23b',
@@ -23,7 +23,6 @@ class LessonsTable extends Component {
 	render() {
 		return (
 			<table className="table">
-				{/* {this.props.match.params.classId} */}
 				<thead>
 					<tr>
 						<th>Lesson Name</th>
@@ -31,14 +30,23 @@ class LessonsTable extends Component {
 					</tr>
 				</thead>
 				<tbody>
-					{this.state.lesson.map((lesson, index) => (
+					{this.state.lessons.map((lesson, index) => (
 						<React.Fragment>
 							<tr key={index}>
 								<td>{lesson.name}</td>
 								<td>{lesson.due_date}</td>
 							</tr>
 							<tr className="text-center">
-								<RecordsTable lesson={lesson._id} />
+								<RecordsTable
+									professorId={
+										this.props.match.params.id
+									}
+									classId={
+										this.props.match.params
+											.classId
+									}
+									lesson={lesson._id}
+								/>
 							</tr>
 						</React.Fragment>
 					))}
