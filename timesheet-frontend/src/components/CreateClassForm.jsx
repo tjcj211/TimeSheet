@@ -5,6 +5,7 @@ class CreateClassForm extends Component {
 		this.state = {
 			class_name: '',
 		};
+		this.handleChangeName = this.handleChangeName.bind(this);
 	}
 
 	handleChangeName = (event) => {

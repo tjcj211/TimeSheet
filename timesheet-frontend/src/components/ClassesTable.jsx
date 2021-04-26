@@ -3,6 +3,10 @@ import { getProfessorClasses, saveClass } from '../service/professorService';
 import CreateClassForm from './CreateClassForm';
 import { Link } from 'react-router-dom';
 class ClassesTable extends Component {
+	constructor(props) {
+		super(props);
+		this.handleAddClass = this.handleAddClass.bind(this);
+	}
 	state = {
 		classes: [],
 	};

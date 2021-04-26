@@ -3,6 +3,10 @@ import { getProfessorLessons, saveLesson } from '../service/professorService';
 import CreateLessonForm from './CreateLessonForm';
 import RecordsTable from './RecordsTable';
 class LessonsTable extends Component {
+	constructor(props) {
+		super(props);
+		this.handleAddLesson = this.handleAddLesson.bind(this);
+	}
 	state = {
 		lessons: [],
 	};
