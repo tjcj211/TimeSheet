@@ -172,16 +172,12 @@ professorRouter
 
 professorRouter
 	.route('/:accountId/classes/:classId/lessons/:lessonId/records')
-	//get a specific class by ID
+	//get all records
 	.get((req, res, next) => {
-		// Lesson.findById(req.params.lessonId, (err, lessons) => {
-		// 	if (err) throw err;
-		// 	res.json(lessons);
-		// });
-		Record.find({}, (err, records) => {
+		Lesson.findById(req.params.lessonId, (err, lessons) => {
 			if (err) throw err;
-			res.json(records);
-		});
+			res.json(lessons.record);
+		}).populate('record');
 	});
 
 module.exports = professorRouter;
