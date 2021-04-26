@@ -3,12 +3,12 @@ const apiUrl = 'http://localhost:3001';
 
 const apiEndpoint = apiUrl + '/professor';
 
-function classesUrl(id) {
-	return `${apiEndpoint}/${id}/classes`;
-}
-
 function classUrl(id, classId) {
 	return `${apiEndpoint}/${id}/classes/${classId}`;
+}
+
+function classesUrl(id) {
+	return `${apiEndpoint}/${id}/classes`;
 }
 
 function lessonUrl(id, classId) {
@@ -16,7 +16,7 @@ function lessonUrl(id, classId) {
 }
 
 function recordUrl(id, classId, lessonId) {
-	return `${apiEndpoint}/${id}/classes/${classId}/lessons/${lessonId}`;
+	return `${apiEndpoint}/${id}/classes/${classId}/lessons/${lessonId}/records`;
 }
 
 // GET professor/:accountId/classes
@@ -34,7 +34,7 @@ export function getProfessorLessons(professorId, classId) {
 	return http.get(lessonUrl(professorId, classId));
 }
 
-// GET professor/:accountId/classes/:classId/lessons/:lessonId
+// GET professor/:accountId/classes/:classId/lessons/:lessonId/records
 export function getProfessorRecords(professorId, classId, lessonId) {
 	return http.get(recordUrl(professorId, classId, lessonId));
 }

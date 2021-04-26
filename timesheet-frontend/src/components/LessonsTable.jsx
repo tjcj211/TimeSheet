@@ -3,22 +3,15 @@ import { getProfessorLessons } from '../service/professorService';
 import RecordsTable from './RecordsTable';
 class LessonsTable extends Component {
 	state = {
-		lessons: [
-			{
-				record: ['606f90cdce745d49dc11c23e'],
-				_id: '606f909bce745d49dc11c23b',
-				name: 'REST APIs',
-				due_date: '2021-06-20',
-				__v: 0,
-			},
-		],
+		lessons: [],
 	};
 	async componentDidMount() {
+		//TODO: add conditional for professor/student
 		const { data } = await getProfessorLessons(
 			this.props.match.params.id,
 			this.props.match.params.classId
 		);
-		this.setState({ lesson: data });
+		this.setState({ lessons: data });
 	}
 	render() {
 		return (
@@ -37,6 +30,7 @@ class LessonsTable extends Component {
 								<td>{lesson.due_date}</td>
 							</tr>
 							<tr className="text-center">
+								{/*TODO: Conditional rendering for Professor*/}
 								<RecordsTable
 									professorId={
 										this.props.match.params.id
@@ -45,8 +39,9 @@ class LessonsTable extends Component {
 										this.props.match.params
 											.classId
 									}
-									lesson={lesson._id}
+									lessonId={lesson._id}
 								/>
+								{/*TODO: Conditional rendering for Student*/}
 							</tr>
 						</React.Fragment>
 					))}
