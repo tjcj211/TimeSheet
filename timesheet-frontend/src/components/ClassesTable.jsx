@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getClasses } from '../service/professorService';
+import { getProfessorClasses } from '../service/professorService';
 import { Link } from 'react-router-dom';
 class ClassesTable extends Component {
 	state = {

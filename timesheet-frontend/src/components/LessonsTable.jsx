@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getLessons } from '../service/professorService';
+import { getProfessorLessons } from '../service/professorService';
 import RecordsTable from './RecordsTable';
 class LessonsTable extends Component {
 	state = {

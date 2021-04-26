@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getRecords } from '../service/professorService';
+import { getProfessorRecords } from '../service/professorService';
 class LessonsTable extends Component {
 	state = {
 		records: [
