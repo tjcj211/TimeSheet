@@ -19,22 +19,27 @@ function recordUrl(id, classId, lessonId) {
 	return `${apiEndpoint}/${id}/classes/${classId}/lessons/${lessonId}`;
 }
 
+// GET professor/:accountId/classes
 export function getProfessorClasses(professorId) {
 	return http.get(classesUrl(professorId));
 }
 
+// GET professor/:accountId/classes/:classId
 export function getProfessorClass(professorId, classId) {
 	return http.get(classUrl(professorId, classId));
 }
 
+// GET professor/:accountId/classes/:classId/lessons
 export function getProfessorLessons(professorId, classId) {
 	return http.get(lessonUrl(professorId, classId));
 }
 
+// GET professor/:accountId/classes/:classId/lessons/:lessonId
 export function getProfessorRecords(professorId, classId, lessonId) {
 	return http.get(recordUrl(professorId, classId, lessonId));
 }
 
+//Just an example right now
 export function saveClass(clas) {
 	if (clas._id) {
 		const body = { ...clas };
@@ -45,6 +50,7 @@ export function saveClass(clas) {
 	return http.post(apiEndpoint, clas);
 }
 
+//Just an example right now
 export function deleteClass(professorId) {
 	return http.delete(classesUrl(professorId));
 }
