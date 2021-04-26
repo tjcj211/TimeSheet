@@ -14,7 +14,7 @@ class ClassesTable extends Component {
 		this.setState({ classes: data });
 	}
 
-	handleAddClass = async (class_name, class_code) => {
+	handleAddClass = async (class_name) => {
 		var randomClassCode =
 			Math.floor(Math.random() * 100000) +
 			'-' +
@@ -29,7 +29,6 @@ class ClassesTable extends Component {
 			obj
 		);
 		const classes = [clas, ...this.state.classes];
-		console.log(classes[0].result);
 		this.setState({ classes });
 	};
 
