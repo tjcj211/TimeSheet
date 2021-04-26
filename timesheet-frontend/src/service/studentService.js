@@ -20,21 +20,21 @@ function recordsUrl(id, classId, lessonId) {
 }
 
 // GET student/:accountId/classes
-export function getstudentClasses(studentId) {
+export function getStudentClasses(studentId) {
 	return http.get(classesUrl(studentId));
 }
 
 // GET student/:accountId/classes/:classId
-export function getstudentClass(studentId, classId) {
+export function getStudentClass(studentId, classId) {
 	return http.get(classUrl(studentId, classId));
 }
 
 // GET student/:accountId/classes/:classId/lessons
-export function getstudentLessons(studentId, classId) {
+export function getStudentLessons(studentId, classId) {
 	return http.get(lessonUrl(studentId, classId));
 }
 
 // GET student/:accountId/classes/:classId/lessons/:lessonId/records
-export function getstudentRecords(studentId, classId, lessonId) {
+export function getStudentRecords(studentId, classId, lessonId) {
 	return http.get(recordsUrl(studentId, classId, lessonId));
 }
