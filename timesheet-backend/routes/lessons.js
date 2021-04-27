@@ -50,5 +50,13 @@ lessonRouter
       }
     );
   });
+lessonRouter
+  .route("/account/:id/classes/:classId/lessons/:lesson/records/:recordId")
+  .get((req, res, next) => {
+    record.findById(req.params.recordId, {}, {}, (err, record) => {
+      if (err) throw err;
+      res.json(record);
+    });
+  });
 
 module.exports = lessonRouter;
