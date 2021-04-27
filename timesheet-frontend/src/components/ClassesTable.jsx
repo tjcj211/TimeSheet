@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { getProfessorClasses, saveClass } from '../service/professorService';
+import { getStudentClasses } from '../service/studentService';
+import { getAccount } from '../service/accountService';
 import CreateClassForm from './CreateClassForm';
 import { Link } from 'react-router-dom';
 class ClassesTable extends Component {
@@ -9,13 +11,34 @@ class ClassesTable extends Component {
 	}
 	state = {
 		classes: [],
+		account: {},
 	};
+
 	async componentDidMount() {
 		//TODO: add conditional for professor/student
-		const { data } = await getProfessorClasses(
+		const { data: account } = await getAccount(
 			this.props.match.params.id
 		);
-		this.setState({ classes: data });
+		this.setState({ account });
+
+		switch (account.account_type) {
+			case 'PROFESSOR':
+				const {
+					data: professorClasses,
+				} = await getProfessorClasses(this.props.match.params.id);
+				this.setState({ classes: professorClasses });
+				break;
+
+			case 'STUDENT':
+				const { data: studentClasses } = await getStudentClasses(
+					this.props.match.params.id
+				);
+				this.setState({ classes: studentClasses });
+				break;
+
+			default:
+				break;
+		}
 	}
 
 	handleAddClass = async (class_name) => {
@@ -37,6 +60,7 @@ class ClassesTable extends Component {
 	};
 
 	render() {
+		const accountType = this.state.account.account_type;
 		return (
 			<React.Fragment>
 				<table className="table">
@@ -61,7 +85,17 @@ class ClassesTable extends Component {
 						))}
 					</tbody>
 				</table>
-				<CreateClassForm handleAddClass={this.handleAddClass} />
+
+				{/*Conditional Render - If account is a Professor/Student*/}
+				<div>
+					{accountType === 'PROFESSOR' ? (
+						<CreateClassForm
+							handleAddClass={this.handleAddClass}
+						/>
+					) : (
+						'DEBUG: STUDENT JOIN CLASS'
+					)}
+				</div>
 			</React.Fragment>
 		);
 	}

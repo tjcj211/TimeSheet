@@ -2,6 +2,7 @@ var express = require('express');
 var accountRouter = express.Router();
 let Account = require('../Models/account');
 const mongoose = require('mongoose');
+
 accountRouter.route('/').get((req, res, next) => {
 	Account.find({})
 		.populate('class')
@@ -15,5 +16,22 @@ accountRouter.route('/').get((req, res, next) => {
 			});
 		});
 });
+
+accountRouter
+	.route('/:accountId/')
+	//Get an account with a specific ID
+	.get((req, res, next) => {
+		Account.findById(req.params.accountId)
+			.populate('class')
+			.exec()
+			.then((account) => {
+				res.status(200).json(account);
+			})
+			.catch((err) => {
+				res.status(500).json({
+					error: err,
+				});
+			});
+	});
 
 module.exports = accountRouter;
