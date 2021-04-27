@@ -16,7 +16,7 @@ var lessonSchema = new Schema({
 
 	due_date: {
 		type: Date,
-		required: true,
+		required: false,
 	},
 });
 var lessonSchema = mongoose.model('lessons', lessonSchema);

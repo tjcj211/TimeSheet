@@ -73,10 +73,10 @@ professorRouter
 	.route('/:accountId/classes')
 	//get all classes for the professor
 	.get((req, res, next) => {
-		Class.find({}, (err, classes) => {
+		Account.findById(req.params.accountId, (err, account) => {
 			if (err) throw err;
-			res.json(classes);
-		}).populate('lesson');
+			res.json(account.class);
+		}).populate('class');
 	})
 	.post((req, res, next) => {
 		const clas = new Class({
@@ -172,16 +172,12 @@ professorRouter
 
 professorRouter
 	.route('/:accountId/classes/:classId/lessons/:lessonId/records')
-	//get a specific class by ID
+	//get all records
 	.get((req, res, next) => {
-		// Lesson.findById(req.params.lessonId, (err, lessons) => {
-		// 	if (err) throw err;
-		// 	res.json(lessons);
-		// });
-		Record.find({}, (err, records) => {
+		Lesson.findById(req.params.lessonId, (err, lessons) => {
 			if (err) throw err;
-			res.json(records);
-		});
+			res.json(lessons.record);
+		}).populate('record');
 	});
 
 module.exports = professorRouter;

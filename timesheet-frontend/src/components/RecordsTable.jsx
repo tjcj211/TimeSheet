@@ -1,23 +1,19 @@
 import React, { Component } from 'react';
-import { getRecords } from '../service/professorService';
-class LessonsTable extends Component {
+import { getProfessorRecords } from '../service/professorService';
+class RecordsTable extends Component {
 	state = {
-		records: [
-			{
-				type: 'HOMEWORK',
-				_id: '606f90cdce745d49dc11c23e',
-				minutes: 10,
-				__v: 0,
-			},
-		],
+		records: [],
 	};
 	async componentDidMount() {
 		const { professorId, classId, lessonId } = this.props;
-		const { data } = await getRecords(professorId, classId, lessonId);
-		this.setState({ record: data });
+		const { data } = await getProfessorRecords(
+			professorId,
+			classId,
+			lessonId
+		);
+		this.setState({ records: data });
 	}
 	render() {
-		const { lesson } = this.props;
 		return (
 			<table className="table">
 				<thead>
@@ -39,4 +35,4 @@ class LessonsTable extends Component {
 	}
 }
 
-export default LessonsTable;
+export default RecordsTable;
