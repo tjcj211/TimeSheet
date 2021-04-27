@@ -87,6 +87,12 @@ studentRouter
 			if (err) throw err;
 			res.json(classes);
 		}).populate('lesson');
+	})
+	.put((req, res, next) => {
+		Account.findByIdAndUpdate(req.params.accountId, {
+			$push: { class: req.params.classId },
+		}).exec();
+		res.end();
 	});
 
 studentRouter

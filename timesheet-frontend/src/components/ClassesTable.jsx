@@ -67,7 +67,14 @@ class ClassesTable extends Component {
 					<thead>
 						<tr>
 							<th>Class Name</th>
-							<th>Class Code</th>
+							{/*Conditional Render - If account is a Professor/Student*/}
+							<div>
+								{accountType === 'PROFESSOR' ? (
+									<th>Class Code</th>
+								) : (
+									''
+								)}
+							</div>
 						</tr>
 					</thead>
 					<tbody>
@@ -80,7 +87,14 @@ class ClassesTable extends Component {
 										{clas.name}
 									</Link>
 								</td>
-								<td>{clas.class_code}</td>
+								{/*Conditional Render - If account is a Professor/Student*/}
+								<div>
+									{accountType === 'PROFESSOR' ? (
+										<td>{clas.class_code}</td>
+									) : (
+										''
+									)}
+								</div>
 							</tr>
 						))}
 					</tbody>
