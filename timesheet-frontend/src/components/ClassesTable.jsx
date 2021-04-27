@@ -56,7 +56,7 @@ class ClassesTable extends Component {
 			this.props.match.params.id,
 			obj
 		);
-		const classes = [clas, ...this.state.classes];
+		const classes = [clas.result, ...this.state.classes];
 		this.setState({ classes });
 	};
 

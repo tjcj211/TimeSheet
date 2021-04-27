@@ -53,7 +53,8 @@ class LessonsTable extends Component {
 			this.props.match.params.classId,
 			obj
 		);
-		const lessons = [lesson, ...this.state.lessons];
+		console.log(lesson.result);
+		const lessons = [lesson.result, ...this.state.lessons];
 		this.setState({ lessons });
 	};
 
