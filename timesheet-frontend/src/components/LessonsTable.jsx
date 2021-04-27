@@ -18,10 +18,19 @@ class LessonsTable extends Component {
     lessons: [],
     account: {},
   };
-  handleChange(event) {
-    this.setState({ value: event.target.value });
-    this.setState({ inputtime: event.target.inputtime });
+  handleChange (event) {
+	const { inputtime: record } = await saveRecord(
+		this.props.match.params.id,
+		this.props.match.params.classId,
+		this.props.match.params.lessonId,
+	)
+	console.log(record.result);
+	const records = [record.result, ...this.state.lessons];
+	this.setState({ inputtime: event.target.inputtime });
+	
   }
+ 
+
   handleSubmit(event) {
     alert("A lesson was submitted: " + this.state.value + this.state.inputtime);
 
