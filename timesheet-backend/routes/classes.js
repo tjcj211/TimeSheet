@@ -4,7 +4,7 @@ let Class = require('../Models/class');
 const mongoose = require('mongoose');
 
 classRouter.route('/:classCode').get((req, res, next) => {
-	Class.find({ class_code: '426-233' })
+	Class.find({ class_code: req.params.classCode })
 		.populate('lesson')
 		.exec()
 		.then((clas) => {

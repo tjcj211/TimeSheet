@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { getProfessorClasses, saveClass } from '../service/professorService';
-import { getStudentClasses } from '../service/studentService';
+import { getStudentClasses, addClass } from '../service/studentService';
 import { getAccount } from '../service/accountService';
+import { getClass } from '../service/classService';
 import CreateClassForm from './CreateClassForm';
+import JoinClassForm from './JoinClassForm';
 import { Link } from 'react-router-dom';
 class ClassesTable extends Component {
 	constructor(props) {
@@ -58,6 +60,13 @@ class ClassesTable extends Component {
 		this.setState({ classes });
 	};
 
+	handleJoinClass = async (class_code) => {
+		const { data: clas } = await getClass(class_code);
+		await addClass(this.state.account._id, clas);
+		const classes = [clas[0], ...this.state.classes];
+		this.setState({ classes });
+	};
+
 	render() {
 		const accountType = this.state.account.account_type;
 		return (
@@ -102,7 +111,9 @@ class ClassesTable extends Component {
 							handleAddClass={this.handleAddClass}
 						/>
 					) : (
-						'DEBUG: STUDENT JOIN CLASS'
+						<JoinClassForm
+							handleJoinClass={this.handleJoinClass}
+						/>
 					)}
 				</div>
 			</React.Fragment>
