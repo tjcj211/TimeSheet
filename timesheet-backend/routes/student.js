@@ -71,12 +71,12 @@ studentRouter
 
 studentRouter
 	.route('/:accountId/classes')
-	//get all classes for the professor
+	//get all classes for the student
 	.get((req, res, next) => {
-		Class.find({}, (err, classes) => {
+		Account.findById(req.params.accountId, (err, account) => {
 			if (err) throw err;
-			res.json(classes);
-		}).populate('lesson');
+			res.json(account.class);
+		}).populate('class');
 	});
 
 studentRouter
