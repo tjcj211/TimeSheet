@@ -127,7 +127,7 @@ class LessonsTable extends Component {
                                   <option>Exam Prep</option>
                                 </select>
                                 <div></div>
-                                {lesson.record == null ? (
+                                {lesson.record.minutes == null ? (
                                   <input
                                     type="text"
                                     placeholder={this.state.records.minutes}
