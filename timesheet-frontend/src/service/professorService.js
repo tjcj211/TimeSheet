@@ -39,7 +39,6 @@ export function getProfessorRecords(professorId, classId, lessonId) {
 	return http.get(recordUrl(professorId, classId, lessonId));
 }
 
-//Just an example right now
 export function saveClass(professorId, clas) {
 	if (clas._id) {
 		const body = { ...clas };
@@ -48,6 +47,16 @@ export function saveClass(professorId, clas) {
 	}
 
 	return http.post(classesUrl(professorId), clas);
+}
+
+export function saveLesson(professorId, classId, lesson) {
+	if (lesson._id) {
+		const body = { ...lesson };
+		delete body._id;
+		return http.put(lessonUrl(professorId, classId), body);
+	}
+
+	return http.post(lessonUrl(professorId, classId), lesson);
 }
 
 //Just an example right now

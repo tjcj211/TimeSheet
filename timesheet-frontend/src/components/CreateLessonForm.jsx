@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
-class CreateClassForm extends Component {
+class CreateLessonForm extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			class_name: '',
+			lesson_name: '',
+			due_date: '',
 		};
-		this.handleChangeName = this.handleChangeName.bind(this);
 	}
 
 	handleChangeName = (event) => {
-		this.setState({ class_name: event.target.value });
+		this.setState({ lesson_name: event.target.value });
+	};
+
+	handleChangeDate = (event) => {
+		this.setState({ due_date: event.target.value });
 	};
 
 	render() {
@@ -21,8 +25,18 @@ class CreateClassForm extends Component {
 							type="text"
 							className="form-control"
 							name="search"
-							placeholder="Class Name"
+							placeholder="Lesson Name"
 							onChange={this.handleChangeName}
+							value={this.state.class_name}
+						/>
+					</div>
+					<div className="col">
+						<input
+							type="text"
+							className="form-control"
+							name="search"
+							placeholder="Due Date: MM/DD/YYYY"
+							onChange={this.handleChangeDate}
 							value={this.state.class_name}
 						/>
 					</div>
@@ -30,15 +44,17 @@ class CreateClassForm extends Component {
 						<button
 							className="btn btn-primary"
 							onClick={() => {
-								this.props.handleAddClass(
-									this.state.class_name
+								this.props.handleAddLesson(
+									this.state.lesson_name,
+									this.state.due_date
 								);
 								this.setState({
 									class_name: '',
+									due_date: '',
 								});
 							}}
 						>
-							Create Class
+							Create Lessons
 						</button>
 					</div>
 				</div>
@@ -47,4 +63,4 @@ class CreateClassForm extends Component {
 	}
 }
 
-export default CreateClassForm;
+export default CreateLessonForm;

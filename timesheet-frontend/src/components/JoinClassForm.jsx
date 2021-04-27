@@ -3,13 +3,13 @@ class CreateClassForm extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			class_name: '',
+			class_code: '',
 		};
-		this.handleChangeName = this.handleChangeName.bind(this);
+		this.handleChangeCode = this.handleChangeCode.bind(this);
 	}
 
-	handleChangeName = (event) => {
-		this.setState({ class_name: event.target.value });
+	handleChangeCode = (event) => {
+		this.setState({ class_code: event.target.value });
 	};
 
 	render() {
@@ -21,24 +21,24 @@ class CreateClassForm extends Component {
 							type="text"
 							className="form-control"
 							name="search"
-							placeholder="Class Name"
-							onChange={this.handleChangeName}
-							value={this.state.class_name}
+							placeholder="Class Code"
+							onChange={this.handleChangeCode}
+							value={this.state.class_code}
 						/>
 					</div>
 					<div className="col">
 						<button
 							className="btn btn-primary"
 							onClick={() => {
-								this.props.handleAddClass(
-									this.state.class_name
+								this.props.handleJoinClass(
+									this.state.class_code
 								);
 								this.setState({
-									class_name: '',
+									class_code: '',
 								});
 							}}
 						>
-							Create Class
+							Join Class
 						</button>
 					</div>
 				</div>

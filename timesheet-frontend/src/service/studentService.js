@@ -38,3 +38,9 @@ export function getStudentLessons(studentId, classId) {
 export function getStudentRecords(studentId, classId, lessonId) {
 	return http.get(recordsUrl(studentId, classId, lessonId));
 }
+
+export function addClass(studentId, clas) {
+	if (clas[0]._id) {
+		return http.put(classUrl(studentId, clas[0]._id), clas);
+	}
+}
