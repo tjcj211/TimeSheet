@@ -10,8 +10,8 @@ var lessonSchema = new Schema({
   },
 
   record: {
-    //type: [{ type: Schema.Types.ObjectId, ref: "lessons" }],
-    type: [recordSchema],
+    type: [{ type: Schema.Types.ObjectId, ref: "lessons" }],
+    //type: [recordSchema],
     required: false,
   },
 
