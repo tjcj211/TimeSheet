@@ -17,7 +17,6 @@ class LessonsTable extends Component {
   state = {
     lessons: [],
     account: {},
-    records: [],
   };
   handleChange(event) {
     this.setState({ value: event.target.value });
@@ -49,13 +48,10 @@ class LessonsTable extends Component {
           this.props.match.params.id,
           this.props.match.params.classId
         );
+        console.log("student lessons: " + studentLessons);
         this.setState({ lessons: studentLessons });
-        const { times: minutes } = await getStudentRecords(
-          this.props.match.params.id,
-          this.props.match.params.classId,
-          this.props.match.params.lessonId
-        );
-        this.setState({ records: minutes });
+        console.log("student lessons: " + this.state.lessons);
+
         break;
       default:
         break;
@@ -80,7 +76,7 @@ class LessonsTable extends Component {
 
   render() {
     const accountType = this.state.account.account_type;
-    const minutes = this.state.records.minutes;
+    //const minutes = this.state.records.minutes;
     return (
       <React.Fragment>
         <table className="table">
@@ -127,17 +123,17 @@ class LessonsTable extends Component {
                                   <option>Exam Prep</option>
                                 </select>
                                 <div></div>
-                                {lesson.record.minutes == null ? (
+                                {lesson.record == 0 ? (
                                   <input
                                     type="text"
-                                    placeholder={this.state.records.minutes}
+                                    placeholder="mins"
                                     value={this.state.inputtime}
                                     onChange={this.handleChange}
                                   />
                                 ) : (
                                   <input
                                     type="text"
-                                    placeholder={this.state.records.minutes}
+                                    placeholder="mins"
                                     value={this.state.inputtime}
                                     onChange={this.handleChange}
                                     disabled="true"
