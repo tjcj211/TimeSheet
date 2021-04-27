@@ -103,10 +103,8 @@ class LessonsTable extends Component {
 														}
 													/>
 											  )
-											: null}
+											: 'DEBUG: ADD RECORD IF NOT PRESENT'}
 									</div>
-
-									{/*TODO: Conditional rendering for Student*/}
 								</tr>
 							</React.Fragment>
 						))}
