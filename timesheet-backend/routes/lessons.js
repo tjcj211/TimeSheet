@@ -5,6 +5,22 @@ const mongoose = require("mongoose");
 
 lessonRouter
   .route("/account/:id/classes/:class/lessons/:lesson")
+  .get((req, res, next) => {
+    lesson
+      .findbyId(req.params.lesson, {})
+      .populate("record")
+      .exec()
+      .then((less) => {
+        res.status(200).json(less);
+      })
+      .catch((err) => {
+        res.status(500).json({
+          error: err,
+        });
+      });
+  });
+lessonRouter
+  .route("/account/:id/classes/:class/lessons/:lesson")
   .all((req, res, next) => {
     next();
   })
@@ -23,11 +39,16 @@ lessonRouter
     });
     res.end();
   })
-  .put((req,res,next) => {
-    lesson.findByIdAndUpdate(req.params.lessonId, {$set: req.body}, {new: true}, (err, lesson) => {
-      if (err) throw err;
-      res.json(lesson);
-    });
+  .put((req, res, next) => {
+    lesson.findByIdAndUpdate(
+      req.params.lessonId,
+      { $set: req.body },
+      { new: true },
+      (err, lesson) => {
+        if (err) throw err;
+        res.json(lesson);
+      }
+    );
   });
 
 module.exports = lessonRouter;
