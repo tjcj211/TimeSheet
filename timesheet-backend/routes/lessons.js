@@ -53,10 +53,11 @@ lessonRouter
 lessonRouter
   .route("/account/:id/classes/:classId/lessons/:lesson/records/:recordId")
   .get((req, res, next) => {
-    record.findById(req.params.recordId, {}, {}, (err, record) => {
+    record.find({}, (err, record) => {
       if (err) throw err;
       res.json(record);
     });
+    res.end();
   });
 
 module.exports = lessonRouter;
