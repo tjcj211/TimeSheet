@@ -15,7 +15,6 @@ class ClassesTable extends Component {
 	};
 
 	async componentDidMount() {
-		//TODO: add conditional for professor/student
 		const { data: account } = await getAccount(
 			this.props.match.params.id
 		);
@@ -71,9 +70,7 @@ class ClassesTable extends Component {
 							<div>
 								{accountType === 'PROFESSOR' ? (
 									<th>Class Code</th>
-								) : (
-									''
-								)}
+								) : null}
 							</div>
 						</tr>
 					</thead>
@@ -91,9 +88,7 @@ class ClassesTable extends Component {
 								<div>
 									{accountType === 'PROFESSOR' ? (
 										<td>{clas.class_code}</td>
-									) : (
-										''
-									)}
+									) : null}
 								</div>
 							</tr>
 						))}

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { getProfessorLessons, saveLesson } from '../service/professorService';
+import { getStudentLessons } from '../service/studentService';
+import { getAccount } from '../service/accountService';
 import CreateLessonForm from './CreateLessonForm';
 import RecordsTable from './RecordsTable';
 class LessonsTable extends Component {
@@ -9,14 +11,35 @@ class LessonsTable extends Component {
 	}
 	state = {
 		lessons: [],
+		account: {},
 	};
 	async componentDidMount() {
-		//TODO: add conditional for professor/student
-		const { data } = await getProfessorLessons(
-			this.props.match.params.id,
-			this.props.match.params.classId
+		const { data: account } = await getAccount(
+			this.props.match.params.id
 		);
-		this.setState({ lessons: data });
+		this.setState({ account });
+
+		switch (account.account_type) {
+			case 'PROFESSOR':
+				const {
+					data: professorLessons,
+				} = await getProfessorLessons(
+					this.props.match.params.id,
+					this.props.match.params.classId
+				);
+				this.setState({ lessons: professorLessons });
+				break;
+
+			case 'STUDENT':
+				const { data: studentLessons } = await getStudentLessons(
+					this.props.match.params.id,
+					this.props.match.params.classId
+				);
+				this.setState({ lessons: studentLessons });
+				break;
+			default:
+				break;
+		}
 	}
 
 	handleAddLesson = async (lesson_name, due_date) => {
@@ -35,6 +58,7 @@ class LessonsTable extends Component {
 	};
 
 	render() {
+		const accountType = this.state.account.account_type;
 		return (
 			<React.Fragment>
 				<table className="table">
@@ -52,34 +76,49 @@ class LessonsTable extends Component {
 									<td>{lesson.due_date}</td>
 								</tr>
 								<tr className="text-center">
-									{/*TODO: Conditional rendering for Professor*/}
-									{lesson.record &&
-										lesson.record.length !==
-											0 && (
-											<RecordsTable
-												professorId={
-													this.props
-														.match
-														.params.id
-												}
-												classId={
-													this.props
-														.match
-														.params
-														.classId
-												}
-												lessonId={
-													lesson._id
-												}
-											/>
-										)}
+									{/*Conditional Render - If account is a Professor/Student*/}
+									<div>
+										{accountType === 'PROFESSOR'
+											? lesson.record &&
+											  lesson.record
+													.length !==
+													0 && (
+													<RecordsTable
+														professorId={
+															this
+																.props
+																.match
+																.params
+																.id
+														}
+														classId={
+															this
+																.props
+																.match
+																.params
+																.classId
+														}
+														lessonId={
+															lesson._id
+														}
+													/>
+											  )
+											: null}
+									</div>
+
 									{/*TODO: Conditional rendering for Student*/}
 								</tr>
 							</React.Fragment>
 						))}
 					</tbody>
 				</table>
-				<CreateLessonForm handleAddLesson={this.handleAddLesson} />
+				<div>
+					{accountType === 'PROFESSOR' ? (
+						<CreateLessonForm
+							handleAddLesson={this.handleAddLesson}
+						/>
+					) : null}
+				</div>
 			</React.Fragment>
 		);
 	}
