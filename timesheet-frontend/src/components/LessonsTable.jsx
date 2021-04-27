@@ -10,16 +10,16 @@ class LessonsTable extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   state = {
-    time: "",
+    inputtime: "",
     value: "",
     lessons: [],
   };
   handleChange(event) {
     this.setState({ value: event.target.value });
-    this.setState({ time: event.target.time });
+    this.setState({ inputtime: event.target.inputtime });
   }
   handleSubmit(event) {
-    alert("A lesson was submitted: " + this.state.value + this.state.time);
+    alert("A lesson was submitted: " + this.state.value + this.state.inputtime);
 
     event.preventDefault();
   }
@@ -33,76 +33,89 @@ class LessonsTable extends Component {
   }
 
   render() {
-    if (false) {
-      return (
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Lesson Name</th>
-              <th>Due Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.lessons.map((lesson, index) => (
-              <React.Fragment>
-                <tr key={index}>
-                  <td>{lesson.name}</td>
-                  <td>{lesson.due_date}</td>
-                </tr>
-                <tr className="text-center">
-                  {/*TODO: Conditional rendering for Professor*/}
-                  <RecordsTable
-                    professorId={this.props.match.params.id}
-                    classId={this.props.match.params.classId}
-                    lessonId={lesson._id}
-                  />
-                  {/*TODO: Conditional rendering for Student*/}
-                </tr>
-              </React.Fragment>
-            ))}
-          </tbody>
-        </table>
-      );
-    } else {
-      return (
-        <React.Fragment>
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              <div>
-                <h2>Enter Time</h2>
-              </div>
-              <div>
-                {this.state.lessons.map((lesson, index, arr) => (
+    let { isProfessor } = true;
+
+    const renderStudent = () => {
+      if (isProfessor) {
+        return (
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Lesson Name</th>
+                <th>Due Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.lessons.map((lesson, index) => (
+                <React.Fragment>
+                  <tr key={index}>
+                    <td>{lesson.name}</td>
+                    <td>{lesson.due_date}</td>
+                  </tr>
+                  <tr className="text-center">
+                    {/*TODO: Conditional rendering for Professor*/}
+                    <RecordsTable
+                      professorId={this.props.match.params.id}
+                      classId={this.props.match.params.classId}
+                      lessonId={lesson._id}
+                    />
+                    {/*TODO: Conditional rendering for Student*/}
+                  </tr>
+                </React.Fragment>
+              ))}
+            </tbody>
+          </table>
+        );
+      } else {
+        return (
+          <React.Fragment>
+            <form onSubmit={this.handleSubmit}>
+              <label>
+                <div>
+                  <h2>Enter Time</h2>
+                </div>
+                <div>
+                  {this.state.lessons.map((lesson, index, arr) => (
+                    <div>
+                      <label>{lesson.name}</label>
+                    </div>
+                  ))}
                   <div>
-                    <label>{lesson.name}</label>
+                    <h4>Select Type and Enter Time</h4>
                   </div>
-                ))}
-                <div>
-                  <h4>Select Type and Enter Time</h4>
+                  <div>
+                    <select
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    >
+                      <option>Homework</option>
+                      <option>Studying</option>
+                      <option>Exam Prep</option>
+                    </select>
+                    <div></div>
+                    <input
+                      type="text"
+                      placeholder="Time (minutes)"
+                      value={this.state.inputtime}
+                      onChange={this.handleChange}
+                    />
+                  </div>
                 </div>
                 <div>
-                  <select value={this.state.value} onChange={this.handleChange}>
-                    <option>Homework</option>
-                    <option>Studying</option>
-                    <option>Exam Prep</option>
-                  </select>
-                  <div></div>
-                  <input
-                    type="text"
-                    placeholder="Time (minutes)"
-                    value={this.state.time}
-                    onChange={this.handleChange}
-                  />
+                  <input type="submit" value="Submit" />
                 </div>
-              </div>
-              <div>
-                <input type="submit" value="Submit" />
-              </div>
-            </label>
-          </form>
-        </React.Fragment>
-      );
-    }
+              </label>
+            </form>
+          </React.Fragment>
+        );
+      }
+    };
+    return (
+      <div>
+        <h1>Testing if this comes up with the other parts below it:</h1>
+        {renderStudent()}
+      </div>
+    );
   }
 }
 
