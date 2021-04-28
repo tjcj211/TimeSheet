@@ -10,7 +10,7 @@ var Verify = require('./verify');
 studentRouter
 	.route('/')
 	//Get all student accounts
-	.get(Verify.verifyUser, function(req, res, next) {
+	.get(function(req, res, next) {
 		accounts.find({ account_type: 'STUDENT' })
 			.populate('class')
 			.exec()
@@ -24,7 +24,7 @@ studentRouter
 			});
 	})
 	//Add a new student account
-	.post(Verify.verifyUser, function(req, res, next) {
+	.post(function(req, res, next) {
 		const account = new Account({
 			_id: mongoose.Types._ObjectId,
 			username: req.body.username,
@@ -48,7 +48,7 @@ studentRouter
 studentRouter
 	.route('/:accountId/')
 	//Get an account with a specific ID
-	.get(Verify.verifyUser, function(req, res, next) {
+	.get(function(req, res, next) {
 		Account.findById(req.params.accountId)
 			.populate('class')
 			.exec()
@@ -62,7 +62,7 @@ studentRouter
 			});
 	})
 	//delete an account with a specific id
-	.delete(Verify.verifyUser, function(req, res, next) {
+	.delete(function(req, res, next) {
 		Account.remove({ _id: req.params.accountId })
 			.exec()
 			.then((result) => {
@@ -73,7 +73,7 @@ studentRouter
 studentRouter
 	.route('/:accountId/classes')
 	//get all classes for the student
-	.get(Verify.verifyUser, function(req, res, next) {
+	.get(function(req, res, next) {
 		Account.findById(req.params.accountId, (err, account) => {
 			if (err) throw err;
 			res.json(classes);
@@ -83,13 +83,13 @@ studentRouter
 studentRouter
 	.route('/:accountId/classes/:classId/')
 	//get a specific class by ID
-	.get(Verify.verifyUser, function(req, res, next) {
+	.get(function(req, res, next) {
 		Class.findById(req.params.classId, (err, classes) => {
 			if (err) throw err;
 			res.json(classes);
 		}).populate('lesson');
 	})
-	.put(Verify.verifyUser, function(req, res, next) {
+	.put(function(req, res, next) {
 		Account.findByIdAndUpdate(req.params.accountId, {
 			$push: { class: req.params.classId },
 		}).exec();
@@ -99,7 +99,7 @@ studentRouter
 studentRouter
 	.route('/:accountId/classes/:classId/lessons')
 	//get all lessons for the given class
-	.get(Verify.verifyUser, function(req, res, next) {
+	.get(function(req, res, next) {
 		Class.findById(req.params.classId, (err, clas) => {
 			if (err) throw err;
 			res.json(clas.lesson);
@@ -109,13 +109,13 @@ studentRouter
 studentRouter
 	.route('/:accountId/classes/:classId/lessons/:lessonId/records')
 	//get all records for the lesson class
-	.get(Verify.verifyUser, function(req, res, next) {
+	.get(function(req, res, next) {
 		Lesson.findById(req.params.lessonId, (err, lesson) => {
 			if (err) throw err;
 			res.json(lesson.record);
 		});
 	})
-	.post(Verify.verifyUser, function(req, res, next) {
+	.post(function(req, res, next) {
 		const record = new Record({
 			type: req.body.type,
 			minutes: req.body.minutes,

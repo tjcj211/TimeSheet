@@ -16,9 +16,13 @@ axios.interceptors.response.use(null, (error) => {
 	return Promise.reject(error);
 });
 
-export default {
+function setToken(token) {
+	axios.defaults.headers.common['x-access-token'] = token;
+}
+const httpObj = {
 	get: axios.get,
 	post: axios.post,
 	put: axios.put,
 	delete: axios.delete,
 };
+export default httpObj;

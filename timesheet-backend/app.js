@@ -9,7 +9,7 @@ var cors = require('cors');
 var {database} = require('./config');
 
 var studentRouter = require('./routes/student');
-var professorRouter = require('./routes/professor');
+//var professorRouter = require('./routes/professor');
 
 var mongoose = require('mongoose');
 const connectionParams = {
@@ -18,7 +18,7 @@ const connectionParams = {
 	useUnifiedTopology: true,
 };
 var uri = 'mongodb+srv://dbuser:158skunkJR21!@cluster0.c0anp.mongodb.net/StudentSheet?retryWrites=true&w=majority';
-//var uri = `mongodb+srv://${config.database.username}:${config.database.password}@${config.database.host}`;
+//var uri = `mongodb+srv://${database.username}:${database.password}@${database.host}`;
 var config = require('./config')
 var passport = require('passport');
 var passportLocal = require('passport-local').Strategy;
@@ -44,7 +44,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use('cors');
+//app.use('cors');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -53,7 +53,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 app.use('/student', studentRouter);
-app.use('/professor', professorRouter);
+//app.use('/professor', professorRouter);
 
 const account = require('./models/account');
 app.use(passport.initialize());
