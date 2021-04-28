@@ -1,7 +1,7 @@
 var express = require('express');
 var studentRouter = express.Router();
 const mongoose = require('mongoose');
-let Account = require('../Models/account');
+let accounts = require('../Models/account');
 let Class = require('../Models/class');
 let Lesson = require('../Models/lesson');
 let Record = require('../Models/record');
@@ -11,7 +11,7 @@ studentRouter
 	.route('/')
 	//Get all student accounts
 	.get(Verify.verifyUser, function(req, res, next) {
-		Account.find({ account_type: 'STUDENT' })
+		accounts.find({ account_type: 'STUDENT' })
 			.populate('class')
 			.exec()
 			.then((accounts) => {
@@ -72,15 +72,9 @@ studentRouter
 
 studentRouter
 	.route('/:accountId/classes')
-<<<<<<< Updated upstream
-	//get all classes for the professor
-	.get((req, res, next) => {
-		Class.find({}, (err, classes) => {
-=======
 	//get all classes for the student
 	.get(Verify.verifyUser, function(req, res, next) {
 		Account.findById(req.params.accountId, (err, account) => {
->>>>>>> Stashed changes
 			if (err) throw err;
 			res.json(classes);
 		}).populate('lesson');
@@ -94,15 +88,12 @@ studentRouter
 			if (err) throw err;
 			res.json(classes);
 		}).populate('lesson');
-<<<<<<< Updated upstream
-=======
 	})
 	.put(Verify.verifyUser, function(req, res, next) {
 		Account.findByIdAndUpdate(req.params.accountId, {
 			$push: { class: req.params.classId },
 		}).exec();
 		res.end();
->>>>>>> Stashed changes
 	});
 
 studentRouter

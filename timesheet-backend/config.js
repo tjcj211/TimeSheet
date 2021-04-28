@@ -9,5 +9,5 @@ exports.database = {
 
 module.exports = {
 	'secretKey' : '11111 - 22222 - 33333 - 44444 - 55555',
-	'mongoUrl' : 'mongodb+srv://dbuser:158skunkJR21!@cluster0.c0anp.mongodb.net/StudentSheet?retryWrites=true&w=majority' 
+	'mongoUrl' : 'mongodb+srv://dbuser:9Sd-qaED-d-374Q@cluster0.c0anp.mongodb.net/timesheetDB?retryWrites=true&w=majority' 
 }

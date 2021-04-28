@@ -1,5 +1,5 @@
 import http from './httpService';
-import {mongoUrl} from '../config.json';
+import {mongoUrl} from '../config';
 
 const mongoDB = mongoUrl + "accounts/register";
 
@@ -20,3 +20,9 @@ export function register(account) {
 		email: account.email
 	});
 }
+
+export default {
+	accountURL,
+	getAccount,
+	register
+};

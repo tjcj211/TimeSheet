@@ -6,6 +6,7 @@ let Class = require('../Models/class');
 const lessonSchema = require('../Models/lesson');
 let Lesson = require('../Models/lesson');
 let Record = require('../Models/record');
+const Verify = require('./verify');
 
 professorRouter
 	.route('/')
@@ -72,13 +73,8 @@ professorRouter
 professorRouter
 	.route('/:accountId/classes')
 	//get all classes for the professor
-<<<<<<< Updated upstream
-	.get((req, res, next) => {
-		Class.find({}, (err, classes) => {
-=======
 	.get(Verify.verifyUser, function(req, res, next) {
 		Account.findById(req.params.accountId, (err, account) => {
->>>>>>> Stashed changes
 			if (err) throw err;
 			res.json(classes);
 		}).populate('lesson');

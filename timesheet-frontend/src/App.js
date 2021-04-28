@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, Component} from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import About from './components/About';
 import NotFound from './components/NotFound';
@@ -20,7 +20,7 @@ class App extends Component {
 		this.setState({ account });
 	}
 	render () {
-		<div className="container">
+		return (<div className="container">
 			<Switch>
 				<Route path="/login" component={LoginForm}></Route>
 				<Route path="/register" component={RegisterForm}></Route>
@@ -40,7 +40,7 @@ class App extends Component {
 				<Route path="/" exact component={Home}></Route>
 				<Redirect to="/not-found" />
 			</Switch>
-		</div>
+		</div>)
 	};
 }
 

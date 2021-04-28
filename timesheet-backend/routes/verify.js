@@ -1,5 +1,9 @@
-var jwt = require('jsonwebtoken');
+var express = require('express');
+var jwt = require("jsonwebtoken");
 var config = require('../config.js');
+var verifyRouter = express.Router();
+
+
 
 // Returns signed token
 exports.getToken = function (student) {
@@ -10,9 +14,9 @@ exports.getToken = function (student) {
     exports.verifyUser = function (req, res, next) {
         var token = req.body.token || req.query.token || req.headers['x-access-token'];
         if (token) {
-                jwt.verify(token, config.secretKey, (err, decoded) => {
+                jwt.verify(token, config.secretKey, function (err, decoded) {
                     if (err) {
-                        const err = new Error('You cannot be logged in');
+                        var err = new Error('You cannot be logged in');
                         err.status = 401;
                         return next(err);
                     } else {
@@ -20,7 +24,7 @@ exports.getToken = function (student) {
                         next();
                     }
                 });
-                
+
         } else {
             var err = new Error('No token has been given!');
             err.status = 403;
@@ -28,4 +32,4 @@ exports.getToken = function (student) {
         }
     }
 
-
+    module.exports = verifyRouter;

@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var config = require('./config');
 var cors = require('cors');
+var {database} = require('./config');
 
 var studentRouter = require('./routes/student');
 var professorRouter = require('./routes/professor');
@@ -17,7 +18,7 @@ const connectionParams = {
 	useUnifiedTopology: true,
 };
 var uri = 'mongodb+srv://dbuser:158skunkJR21!@cluster0.c0anp.mongodb.net/StudentSheet?retryWrites=true&w=majority';
-var uri = `mongodb+srv://${config.database.username}:${config.database.password}@${config.database.host}`;
+//var uri = `mongodb+srv://${config.database.username}:${config.database.password}@${config.database.host}`;
 var config = require('./config')
 var passport = require('passport');
 var passportLocal = require('passport-local').Strategy;

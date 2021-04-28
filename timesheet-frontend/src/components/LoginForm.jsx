@@ -21,7 +21,7 @@ export class LoginForm extends Form {
 		password: Joi.string().required().label('Password'),
 	};
 
-	submitForm = async () => {
+	doSubmit = async () => {
 		 try {
 			const {data} = this.state;
 			await loginService(data.username, data.password);
@@ -35,29 +35,6 @@ export class LoginForm extends Form {
 			} 
 		}
 	};
-
-/* 	handleSubmit(error) {
-		error.preventDefault();
-		this.logIn.login(this.state.username, this.state.password)
-		.then(res => {
-			this.props.history.replace('/');
-		})
-		.catch(err => {
-			alert(err);
-		})
-	}
-
-	handleChange(event) {
-		this.setState({
-			[event.target.name]: event.target.value,
-		});
-	}
-
-	componentWillMount() {
-		if(this.logIn.login()) {
-			this.props.history.replace('/');
-		}
-	} */
 
 	render() {
 
@@ -78,6 +55,7 @@ export class LoginForm extends Form {
 					&nbsp;
 					&nbsp;
 					{this.renderButton('Register')}
+
 					</div>
 				</form>
 			</div>

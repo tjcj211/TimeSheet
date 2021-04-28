@@ -1,87 +1,47 @@
-import decode from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
+import http from './httpService';
+import {mongoUrl} from '../config';
 
-/* function init() {}
+const mongoDB = mongoUrl + "accounts/";
+const token = "token";
 
-function log(error) {
-	console.log(error);
-} */
+//http.setJwt(http.setJwt());
 
-export default class logService {
-	constructor(domain) {
-		this.domain = 'http://localhost:3000';
-		this.fetch = this.fetch.bind(this);
-		this.LoginForm = this.LoginForm.bind(this);
-		this.getUser = this.getUser.bind(this);
-	}
+export async function login(username, password) {
+	const {data: jwt} = await http.post(mongoDB + "login", {
+		username, password
+	});
 
-	login(username, password) {
-		return this.fetch(`${this.domain}/login`, {
-			method: 'POST',
-			body: JSON.stringify ({
-				username,
-				password,
-			}),
-		}).then(res => {
-			this.setToken(res.token);
-			return Promise.resolve(res);
-		});
-	}
-
-	fetch(url, options) {
-		const header = {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json',
-		};
-
-		if (this.logIn()) {
-			header['Authorization'] = 'Bearer ' + this.getToken();
-		}
-
-		return fetch(url, {header, ...options, })
-		.then(this.responseStatus)
-		.then(response => response.json());
-	}
-
-	tokenExpiration(token) {
-		try {
-			const decoded = decode(token);
-			if (decoded.exp < Date.now() / 1000) {
-				return true;
-			} else { return false; }
-
-			} catch (error) {
-				return false;
-		}
-	}
-
-	saveToken(token) {
-		localStorage.setItem('token-name', token);
-	}
-
-	getToken() {
-		return localStorage.getItem('token-name');
-	}
-
-	logIn() {
-		const token = this.getToken();
-		return !this.tokenExpiration(token);
-	}
-
-	logout() {
-		localStorage.removeItem('token-name');
-	}
-
-	getUser() {
-		return decode(this.getToken());
-	}
-
-	responseStatus(response) {
-		if (response.status >= 200 && response.status < 300) {
-			return response;
-		} else {
-			var error = new Error(response);
-			throw error;
-		}
-	}
-
+	localStorage.setItem(token, jwt);
 }
+
+export function tokenLogin(jwt) {
+	localStorage.setItem(token, jwt);
+}
+
+export async function logout() {
+	const response = await http.get(mongoDB + "logout");
+	console.log(response);
+	localStorage.removeItem(token);
+}
+
+export function getCurrentAccount() {
+	try {
+		const jwt = localStorage.getItem(token);
+		return jwtDecode(jwt);
+	} catch (error) {
+		return;
+	}
+};
+
+export function getToken() {
+	return localStorage.getItem(token);
+}
+
+export default {
+	login,
+	tokenLogin,
+	logout,
+	getCurrentAccount,
+	getToken
+};

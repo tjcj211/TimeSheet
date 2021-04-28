@@ -29,8 +29,8 @@ var accountSchema = new Schema({
 		required: true,
 	},
 });
-var accountSchema = mongoose.model('accounts', accountSchema);
+var account = mongoose.model('accounts', accountSchema);
 
 accountSchema.plugin(passportLocalMongoose);
 
-module.exports = accountSchema;
+module.exports = account;

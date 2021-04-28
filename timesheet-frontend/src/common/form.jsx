@@ -56,6 +56,14 @@ class Form extends Component {
 		);
 	}
 
+	registerButton(label) {
+		return (
+			<button disabled={this.validate()} onClick={window.location.href="http://localhost:3000/register"} className="btn btn-primary">
+				{label}
+			</button>
+		);
+	}
+
 	// renderSelect(name, label, options) {
 	// 	const { data, errors } = this.state;
 
