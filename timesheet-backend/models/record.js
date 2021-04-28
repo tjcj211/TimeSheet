@@ -8,6 +8,10 @@ var recordSchema = new Schema({
 		enum: ['HOMEWORK', 'EXAM PREP', 'STUDYING'],
 		default: 'HOMEWORK',
 	},
+	studentId: {
+		type: String,
+		required: Boolean,
+	},
 	minutes: {
 		type: Number,
 		required: true,

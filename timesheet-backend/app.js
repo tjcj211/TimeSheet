@@ -8,6 +8,7 @@ var config = require('./config');
 
 var accountRouter = require('./routes/accounts');
 var classRouter = require('./routes/classes');
+var recordRouter = require('./routes/record');
 var studentRouter = require('./routes/student');
 var professorRouter = require('./routes/professor');
 
@@ -49,6 +50,7 @@ app.use(cors());
 
 app.use('/account', accountRouter);
 app.use('/classes', classRouter);
+app.use('/records', recordRouter);
 app.use('/student', studentRouter);
 app.use('/professor', professorRouter);
 

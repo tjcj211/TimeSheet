@@ -118,6 +118,7 @@ studentRouter
 		const record = new Record({
 			type: req.body.type,
 			minutes: req.body.minutes,
+			studentId: req.body.studentId,
 		});
 		record
 			.save()

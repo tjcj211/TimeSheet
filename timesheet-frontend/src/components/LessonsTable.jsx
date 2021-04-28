@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { getProfessorLessons, saveLesson } from '../service/professorService';
-import { getStudentLessons } from '../service/studentService';
+import { getStudentLessons, saveRecord } from '../service/studentService';
+import { getStudentRecords } from '../service/recordService';
 import { getAccount } from '../service/accountService';
 import CreateLessonForm from './CreateLessonForm';
+import CreateRecordForm from './CreateRecordForm';
 import RecordsTable from './RecordsTable';
 class LessonsTable extends Component {
 	constructor(props) {
@@ -12,6 +14,7 @@ class LessonsTable extends Component {
 	state = {
 		lessons: [],
 		account: {},
+		records: [],
 	};
 	async componentDidMount() {
 		const { data: account } = await getAccount(
@@ -35,7 +38,13 @@ class LessonsTable extends Component {
 					this.props.match.params.id,
 					this.props.match.params.classId
 				);
-				this.setState({ lessons: studentLessons });
+				const { data: studentRecords } = await getStudentRecords(
+					this.props.match.params.id
+				);
+				this.setState({
+					lessons: studentLessons,
+					records: studentRecords,
+				});
 				break;
 			default:
 				break;
@@ -56,6 +65,20 @@ class LessonsTable extends Component {
 		console.log(lesson.result);
 		const lessons = [lesson.result, ...this.state.lessons];
 		this.setState({ lessons });
+	};
+
+	handleAddRecord = async (record_type, minutes, lesson) => {
+		const obj = {
+			type: record_type,
+			minutes: minutes,
+			studentId: this.props.match.params.id,
+		};
+		await saveRecord(
+			this.props.match.params.id,
+			this.props.match.params.classId,
+			lesson._id,
+			obj
+		);
 	};
 
 	render() {
@@ -79,32 +102,38 @@ class LessonsTable extends Component {
 								<tr className="text-center">
 									{/*Conditional Render - If account is a Professor/Student*/}
 									<div>
-										{accountType === 'PROFESSOR'
-											? lesson.record &&
-											  lesson.record
-													.length !==
-													0 && (
-													<RecordsTable
-														professorId={
-															this
-																.props
-																.match
-																.params
-																.id
-														}
-														classId={
-															this
-																.props
-																.match
-																.params
-																.classId
-														}
-														lessonId={
-															lesson._id
-														}
-													/>
-											  )
-											: 'DEBUG: ADD RECORD IF NOT PRESENT'}
+										{accountType ===
+										'PROFESSOR' ? (
+											lesson.record &&
+											lesson.record.length !==
+												0 && (
+												<RecordsTable
+													professorId={
+														this.props
+															.match
+															.params
+															.id
+													}
+													classId={
+														this.props
+															.match
+															.params
+															.classId
+													}
+													lessonId={
+														lesson._id
+													}
+												/>
+											)
+										) : (
+											<CreateRecordForm
+												handleAddRecord={
+													this
+														.handleAddRecord
+												}
+												lesson={lesson}
+											/>
+										)}
 									</div>
 								</tr>
 							</React.Fragment>
