@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import Joi from 'joi-browser';
 import Form from '../common/form';
-<<<<<<< Updated upstream
-//import logService from '../service/logService';
-=======
 import {Redirect} from "react-router-dom";
 import loginService from "../service/logService";
->>>>>>> Stashed changes
 
 export class LoginForm extends Form {
 	constructor() {
@@ -73,39 +69,16 @@ export class LoginForm extends Form {
 			<div>
 				<h1>Login</h1>
  				<form onSubmit={this.handleSubmit}>
-					{/*<input
-					className="form-item"
-					name="username"
-					type="text"
-					onChange={this.handleChange}/>
-					<input
-					className="form-item"
-					name="password"
-					type="password"
-					onChange={this.handleChange}/>
-					<input 
-					className="form-submit"
-					value="LOGIN"
-					type="submit"
-					/> */}
- 					<div className="username">
+				 <div className="username">
 					{this.renderInput('username', 'Username')}
 					</div>
 					<div className="password">
 					{this.renderInput('password', 'Password', 'password')}
-<<<<<<< Updated upstream
-					</div>
-					
-					{this.renderButton('Login')} 
-					&nbsp; 
-					&nbsp;
-					{this.renderButton('Register')} 
-=======
 					{this.renderButton('Login')}
 					&nbsp;
 					&nbsp;
 					{this.renderButton('Register')}
->>>>>>> Stashed changes
+					</div>
 				</form>
 			</div>
 		);

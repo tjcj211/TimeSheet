@@ -34,23 +34,12 @@ export class RegisterForm extends Form {
 		return (
 			<div>
 				<h1>Register</h1>
-<<<<<<< Updated upstream
-				<React.Fragment>
-					<form onSubmit={this.handleSubmit}>
-						{this.renderInput('username', 'Username')}
-						{this.renderInput('password', 'Password', 'password')}
-						{this.renderInput('name', 'Name')}
-						{this.renderButton('Register')}
-					</form>
-				</React.Fragment>
-=======
 				<form onSubmit={this.handleSubmit}>
 					{this.renderInput('username', 'Username')}
 					{this.renderInput('password', 'Password', 'password')}
 					{this.renderInput('email', 'Email')}
 					{this.renderButton('Register')}
 				</form>
->>>>>>> Stashed changes
 			</div>
 		);
 	}
