@@ -30,7 +30,7 @@ class CreateLessonForm extends Component {
 							value={this.state.class_name}
 						/>
 					</div>
-					<div className="col">
+					{/* <div className="col">
 						<input
 							type="text"
 							className="form-control"
@@ -39,7 +39,7 @@ class CreateLessonForm extends Component {
 							onChange={this.handleChangeDate}
 							value={this.state.class_name}
 						/>
-					</div>
+					</div> */}
 					<div className="col">
 						<button
 							className="btn btn-primary"
@@ -48,10 +48,6 @@ class CreateLessonForm extends Component {
 									this.state.lesson_name,
 									this.state.due_date
 								);
-								this.setState({
-									class_name: '',
-									due_date: '',
-								});
 							}}
 						>
 							Create Lessons

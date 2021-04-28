@@ -3,7 +3,7 @@ class CreateLessonForm extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			record_type: '',
+			record_type: 'HOMEWORK',
 			minutes: '',
 		};
 	}

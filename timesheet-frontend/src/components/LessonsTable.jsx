@@ -90,7 +90,6 @@ class LessonsTable extends Component {
 					<thead>
 						<tr>
 							<th>Lesson Name</th>
-							<th>Due Date</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -98,7 +97,7 @@ class LessonsTable extends Component {
 							<React.Fragment>
 								<tr key={index}>
 									<td>{lesson.name}</td>
-									<td>{lesson.due_date}</td>
+									{/* <td>{lesson.due_date}</td> */}
 								</tr>
 								<tr className="text-center">
 									{/*Conditional Render - If account is a Professor/Student*/}
