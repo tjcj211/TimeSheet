@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import Joi from 'joi-browser';
 import Form from '../common/form';
+<<<<<<< Updated upstream
 //import logService from '../service/logService';
+=======
+import {Redirect} from "react-router-dom";
+import loginService from "../service/logService";
+>>>>>>> Stashed changes
 
 export class LoginForm extends Form {
 	constructor() {
@@ -20,9 +25,19 @@ export class LoginForm extends Form {
 		password: Joi.string().required().label('Password'),
 	};
 
-	doSubmit = () => {
-		// Call the server
-		console.log('Submitted');
+	submitForm = async () => {
+		 try {
+			const {data} = this.state;
+			await loginService(data.username, data.password);
+			const {state} = this.props.location;
+			window.location = state ? state.from.pathname : '/ClassesTable';
+		} catch (error) {
+			if (error.response && error.response.status === 400) {
+				const errors = { ...this.state.errors};
+				errors.username = error.response.data;
+				this.setState({errors});
+			} 
+		}
 	};
 
 /* 	handleSubmit(error) {
@@ -49,6 +64,11 @@ export class LoginForm extends Form {
 	} */
 
 	render() {
+
+ 		if (loginService.getCurrentAccount()) {
+			return <Redirect to="/login" />;
+		}; 
+
 		return (
 			<div>
 				<h1>Login</h1>
@@ -73,16 +93,23 @@ export class LoginForm extends Form {
 					</div>
 					<div className="password">
 					{this.renderInput('password', 'Password', 'password')}
+<<<<<<< Updated upstream
 					</div>
 					
 					{this.renderButton('Login')} 
 					&nbsp; 
 					&nbsp;
 					{this.renderButton('Register')} 
+=======
+					{this.renderButton('Login')}
+					&nbsp;
+					&nbsp;
+					{this.renderButton('Register')}
+>>>>>>> Stashed changes
 				</form>
 			</div>
 		);
-	}
+	};
 }
 
 export default LoginForm;

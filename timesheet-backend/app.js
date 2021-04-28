@@ -5,6 +5,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var config = require('./config');
+var cors = require('cors');
 
 var studentRouter = require('./routes/student');
 var professorRouter = require('./routes/professor');
@@ -15,10 +16,14 @@ const connectionParams = {
 	useCreateIndex: true,
 	useUnifiedTopology: true,
 };
-//var uri = 'mongodb+srv://dbuser:158skunkJR21!@cluster0.c0anp.mongodb.net/StudentSheet?retryWrites=true&w=majority';
+var uri = 'mongodb+srv://dbuser:158skunkJR21!@cluster0.c0anp.mongodb.net/StudentSheet?retryWrites=true&w=majority';
 var uri = `mongodb+srv://${config.database.username}:${config.database.password}@${config.database.host}`;
+var config = require('./config')
+var passport = require('passport');
+var passportLocal = require('passport-local').Strategy;
+
 mongoose
-	.connect(uri, connectionParams)
+	.connect(config.mongoUrl, {useNewUrlParser: true, useUnifiedTopology: true}, connectionParams)
 	.then(() => {
 		console.log('Connected to database ');
 	})
@@ -38,6 +43,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+app.use('cors');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -47,6 +53,12 @@ app.use(cors());
 
 app.use('/student', studentRouter);
 app.use('/professor', professorRouter);
+
+const account = require('./models/account');
+app.use(passport.initialize());
+passport.use(new LocalStrategy(account.authenticate()));
+passport.serializeUser(account.serializeUser());
+passport.deserializeUser(account.deserializeUser());
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

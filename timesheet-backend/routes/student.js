@@ -5,11 +5,12 @@ let Account = require('../Models/account');
 let Class = require('../Models/class');
 let Lesson = require('../Models/lesson');
 let Record = require('../Models/record');
+var Verify = require('./verify');
 
 studentRouter
 	.route('/')
 	//Get all student accounts
-	.get((req, res, next) => {
+	.get(Verify.verifyUser, function(req, res, next) {
 		Account.find({ account_type: 'STUDENT' })
 			.populate('class')
 			.exec()
@@ -23,7 +24,7 @@ studentRouter
 			});
 	})
 	//Add a new student account
-	.post((req, res, next) => {
+	.post(Verify.verifyUser, function(req, res, next) {
 		const account = new Account({
 			_id: mongoose.Types._ObjectId,
 			username: req.body.username,
@@ -47,7 +48,7 @@ studentRouter
 studentRouter
 	.route('/:accountId/')
 	//Get an account with a specific ID
-	.get((req, res, next) => {
+	.get(Verify.verifyUser, function(req, res, next) {
 		Account.findById(req.params.accountId)
 			.populate('class')
 			.exec()
@@ -61,7 +62,7 @@ studentRouter
 			});
 	})
 	//delete an account with a specific id
-	.delete((req, res, next) => {
+	.delete(Verify.verifyUser, function(req, res, next) {
 		Account.remove({ _id: req.params.accountId })
 			.exec()
 			.then((result) => {
@@ -71,9 +72,15 @@ studentRouter
 
 studentRouter
 	.route('/:accountId/classes')
+<<<<<<< Updated upstream
 	//get all classes for the professor
 	.get((req, res, next) => {
 		Class.find({}, (err, classes) => {
+=======
+	//get all classes for the student
+	.get(Verify.verifyUser, function(req, res, next) {
+		Account.findById(req.params.accountId, (err, account) => {
+>>>>>>> Stashed changes
 			if (err) throw err;
 			res.json(classes);
 		}).populate('lesson');
@@ -82,17 +89,26 @@ studentRouter
 studentRouter
 	.route('/:accountId/classes/:classId/')
 	//get a specific class by ID
-	.get((req, res, next) => {
+	.get(Verify.verifyUser, function(req, res, next) {
 		Class.findById(req.params.classId, (err, classes) => {
 			if (err) throw err;
 			res.json(classes);
 		}).populate('lesson');
+<<<<<<< Updated upstream
+=======
+	})
+	.put(Verify.verifyUser, function(req, res, next) {
+		Account.findByIdAndUpdate(req.params.accountId, {
+			$push: { class: req.params.classId },
+		}).exec();
+		res.end();
+>>>>>>> Stashed changes
 	});
 
 studentRouter
 	.route('/:accountId/classes/:classId/lessons')
 	//get all lessons for the given class
-	.get((req, res, next) => {
+	.get(Verify.verifyUser, function(req, res, next) {
 		Class.findById(req.params.classId, (err, clas) => {
 			if (err) throw err;
 			res.json(clas.lesson);
@@ -102,13 +118,13 @@ studentRouter
 studentRouter
 	.route('/:accountId/classes/:classId/lessons/:lessonId/records')
 	//get all records for the lesson class
-	.get((req, res, next) => {
+	.get(Verify.verifyUser, function(req, res, next) {
 		Lesson.findById(req.params.lessonId, (err, lesson) => {
 			if (err) throw err;
 			res.json(lesson.record);
 		});
 	})
-	.post((req, res, next) => {
+	.post(Verify.verifyUser, function(req, res, next) {
 		const record = new Record({
 			type: req.body.type,
 			minutes: req.body.minutes,
