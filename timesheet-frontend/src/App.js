@@ -1,36 +1,61 @@
-import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import About from './components/About';
-import NotFound from './components/NotFound';
-import LoginForm from './components/LoginForm';
-import RegisterForm from './components/RegisterForm';
-import ClassesTable from './components/ClassesTable';
-import LessonsTable from './components/LessonsTable';
-import Home from './components/Home';
+import React from "react";
+import { Component } from "react";
+import { Switch, Route, Redirect } from "react-router-dom";
+import About from "./components/About";
+import NotFound from "./components/NotFound";
+import LoginForm from "./components/LoginForm";
+import RegisterForm from "./components/RegisterForm";
+import ClassesTable from "./components/ClassesTable";
+import LessonsTable from "./components/LessonsTable";
+import Home from "./components/Home";
+import login from "./service/loginService";
+import Logout from "./components/logout";
+class App extends Component {
+  constructor(props) {
+    super(props);
+  }
+  state = {};
+  componentDidMount() {
+    const account = login.getCurrentAccount();
+    console.log("App.js state = " + account);
+    this.setState({ account });
+  }
+  render() {
+    const { account } = this.state;
+    console.log("App.js state " + account);
 
-function App() {
-	return (
-		<div className="container">
-			<Switch>
-				<Route path="/login" component={LoginForm}></Route>
-				<Route path="/register" component={RegisterForm}></Route>
-				<Route path="/about" component={About}></Route>
-				<Route path="/not-found" component={NotFound}></Route>
-				<Route
-					path="/:id/classes"
-					exact
-					component={ClassesTable}
-				></Route>
-				<Route
-					path="/:id/classes/:classId"
-					exact
-					component={LessonsTable}
-				></Route>
-				<Route path="/" exact component={Home}></Route>
-				<Redirect to="/not-found" />
-			</Switch>
-		</div>
-	);
+    return (
+      <div className="container">
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={(props) => <LoginForm account={account} {...props} />}
+          ></Route>
+          <Route exact path="/logout" component={Logout} />
+          <Route exact path="/register" component={RegisterForm} />
+          <Route exact path="/about" component={About}></Route>
+          <Route path="/not-found" component={NotFound}></Route>
+          <Route
+            exact
+            path="/:id/classes"
+            render={(props) => <ClassesTable account={account} {...props} />}
+          ></Route>
+          <Route
+            exact
+            path="/:id/classes/:classId"
+            render={(props) => <LessonsTable account={account} {...props} />}
+          ></Route>
+          <Route
+            exact
+            path="/"
+            render={(props) => <Home account={account} {...props} />}
+          ></Route>
+          <Redirect to="/not-found" />
+        </Switch>
+      </div>
+    );
+  }
 }
 
 export default App;
