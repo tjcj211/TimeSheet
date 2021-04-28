@@ -83,6 +83,9 @@ class LessonsTable extends Component {
 
 	render() {
 		const accountType = this.state.account.account_type;
+		const records = this.state.records;
+		let renderForm = false;
+		let stopLoop = false;
 		return (
 			<React.Fragment>
 				<table className="table">
@@ -95,6 +98,16 @@ class LessonsTable extends Component {
 					<tbody>
 						{this.state.lessons.map((lesson, index) => (
 							<React.Fragment>
+								{(stopLoop = false)}
+								{!stopLoop
+									? records.map((record) => {
+											renderForm =
+												lesson.record.indexOf(
+													record._id
+												) < 0;
+											stopLoop = true;
+									  })
+									: null}
 								<tr key={index}>
 									<td>{lesson.name}</td>
 									<td>{lesson.due_date}</td>
@@ -126,13 +139,19 @@ class LessonsTable extends Component {
 												/>
 											)
 										) : (
-											<CreateRecordForm
-												handleAddRecord={
-													this
-														.handleAddRecord
-												}
-												lesson={lesson}
-											/>
+											<div>
+												{renderForm ? (
+													<CreateRecordForm
+														handleAddRecord={
+															this
+																.handleAddRecord
+														}
+														lesson={
+															lesson
+														}
+													/>
+												) : null}
+											</div>
 										)}
 									</div>
 								</tr>
