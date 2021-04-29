@@ -105,9 +105,15 @@ class LessonsTable extends Component {
 		});
 	}
 
+	countCompletedRecords(lesson) {
+		const records = [...this.state.records];
+		return records.filter((record) => {
+			return lesson.record.includes(record._id);
+		}).length;
+	}
+
 	render() {
 		const accountType = this.state.account.account_type;
-		const records = this.state.records;
 		const lessons = this.sortLessonsByName();
 		return (
 			<React.Fragment>
@@ -150,7 +156,9 @@ class LessonsTable extends Component {
 													}
 												/>
 											)
-										) : (
+										) : this.countCompletedRecords(
+												lesson
+										  ) === 0 ? (
 											<CreateRecordForm
 												handleAddRecord={
 													this
@@ -158,7 +166,7 @@ class LessonsTable extends Component {
 												}
 												lesson={lesson}
 											/>
-										)}
+										) : null}
 									</div>
 								</tr>
 							</React.Fragment>

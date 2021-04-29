@@ -50,7 +50,7 @@ class CreateLessonForm extends Component {
 								);
 							}}
 						>
-							Create Lessons
+							Create Lesson
 						</button>
 					</div>
 				</div>
