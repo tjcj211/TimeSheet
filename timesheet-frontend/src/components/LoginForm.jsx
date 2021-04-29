@@ -7,7 +7,7 @@ import login from "../service/loginService";
 class LoginForm extends Form {
   constructor(props) {
     super(props);
-    console.log(props);
+    console.log(this.props.account);
   }
   state = {
     data: { username: "", password: "" },
@@ -25,8 +25,8 @@ class LoginForm extends Form {
       await login.login(data.username, data.password);
       //login.loginWithJwt(response.headers["x-access-token"]);
 
-      const account = login.getCurrentAccount();
-
+      //const account = login.getCurrentAccount();
+      console.log("login form user ID = " + this.props.account._id);
       window.location.href = "/classes";
       console.log("Going to page");
     } catch (ex) {

@@ -38,7 +38,8 @@ class App extends Component {
           <Route path="/not-found" component={NotFound}></Route>
           <Route
             exact
-            path="/:id/classes"
+            //path="/:id/classes"
+            path="/classes"
             render={(props) => <ClassesTable account={account} {...props} />}
           ></Route>
           <Route
