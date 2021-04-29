@@ -49,6 +49,21 @@ class LessonsTable extends Component {
 			default:
 				break;
 		}
+		this.addAllLessons();
+	}
+
+	async addAllLessons() {
+		if (this.state.lessons.length === 0) {
+			for (let index = 1; index <= 40; index++) {
+				var name = '';
+				if (index < 10) {
+					name = 'Lesson 0' + index;
+				} else {
+					name = 'Lesson ' + index;
+				}
+				this.handleAddLesson(name, null);
+			}
+		}
 	}
 
 	handleAddLesson = async (lesson_name, due_date) => {
@@ -81,9 +96,19 @@ class LessonsTable extends Component {
 		);
 	};
 
+	sortLessonsByName() {
+		let lessons = [...this.state.lessons];
+		return lessons.sort(function (a, b) {
+			var x = a['name'];
+			var y = b['name'];
+			return x < y ? -1 : x > y ? 1 : 0;
+		});
+	}
+
 	render() {
 		const accountType = this.state.account.account_type;
 		const records = this.state.records;
+		const lessons = this.sortLessonsByName();
 		return (
 			<React.Fragment>
 				<table className="table">
@@ -93,7 +118,7 @@ class LessonsTable extends Component {
 						</tr>
 					</thead>
 					<tbody>
-						{this.state.lessons.map((lesson, index) => (
+						{lessons.map((lesson, index) => (
 							<React.Fragment>
 								<tr key={index}>
 									<td>{lesson.name}</td>

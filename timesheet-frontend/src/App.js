@@ -6,6 +6,7 @@ import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
 import ClassesTable from './components/ClassesTable';
 import LessonsTable from './components/LessonsTable';
+import LoginScreen from './components/LoginScreen';
 import Home from './components/Home';
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
 					exact
 					component={LessonsTable}
 				></Route>
-				<Route path="/" exact component={Home}></Route>
+				<Route path="/" exact component={LoginScreen}></Route>
 				<Redirect to="/not-found" />
 			</Switch>
 		</div>
