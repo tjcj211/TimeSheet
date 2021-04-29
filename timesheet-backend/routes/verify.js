@@ -1,4 +1,3 @@
-var Account = require("../models/Account");
 var jwt = require("jsonwebtoken");
 var config = require("../config.js");
 
@@ -32,7 +31,7 @@ exports.verifyOrdinaryAccount = function (req, res, next) {
   }
   console.log("user verified");
 };
-
+/* 
 exports.verifyProfessor = function (req, res, next) {
   console.log(req.decoded);
   if (req.decoded._doc.isProfessor) {
@@ -43,4 +42,4 @@ exports.verifyProfessor = function (req, res, next) {
     err.status = 403;
     return next(err);
   }
-};
+}; */

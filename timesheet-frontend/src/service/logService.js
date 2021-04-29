@@ -1,10 +1,11 @@
-function init() {}
+/* function init() {}
 
 function log(error) {
-	console.log(error);
+  console.log(error);
 }
 
 export default {
-	init,
-	log,
+  init,
+  log,
 };
+ */

@@ -1,32 +1,35 @@
 //Timothy Carta, Victoria Gorski, Julia Wilkinson
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
+var passportLocalMongoose = require("passport-local-mongoose");
 
 var accountSchema = new Schema({
-	username: {
-		type: String,
-		required: true,
-		unique: true,
-	},
-	email: {
-		type: String,
-		required: true,
-		unique: true,
-	},
-	password: {
-		type: String,
-		required: true,
-	},
-	account_type: {
-		type: String,
-		required: true,
-		enum: ['PROFESSOR', 'STUDENT'],
-		default: 'STUDENT',
-	},
-	class: {
-		type: [{ type: Schema.Types.ObjectId, ref: 'classes' }],
-		required: true,
-	},
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: false,
+  },
+  account_type: {
+    type: String,
+    required: false,
+    enum: ["PROFESSOR", "STUDENT"],
+    default: "STUDENT",
+  },
+  class: {
+    type: [{ type: Schema.Types.ObjectId, ref: "classes" }],
+    required: false,
+  },
 });
-var accountSchema = mongoose.model('accounts', accountSchema);
-module.exports = accountSchema;
+
+accountSchema.plugin(passportLocalMongoose);
+//var accounts = mongoose.model("Account", accountSchema);
+module.exports =
+  mongoose.models.Account || mongoose.model("Account", accountSchema);

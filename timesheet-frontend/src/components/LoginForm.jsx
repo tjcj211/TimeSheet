@@ -23,6 +23,7 @@ class LoginForm extends Form {
     try {
       const { data } = this.state;
       await login.login(data.username, data.password);
+      //login.loginWithJwt(response.headers["x-access-token"]);
 
       const account = login.getCurrentAccount();
 

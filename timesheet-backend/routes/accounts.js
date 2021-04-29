@@ -4,7 +4,7 @@ let Account = require("../Models/account");
 const mongoose = require("mongoose");
 var Verify = require("./verify");
 var passport = require("passport");
-const bcrypt = require("bcrypt");
+var config = require("../config.js");
 
 accountRouter.get("/logout", (req, res) => {
   req.logout();
@@ -46,16 +46,13 @@ accountRouter
   });
 
 accountRouter.post("/register", async function (req, res) {
-  account.register(
-    new account({
+  Account.register(
+    new Account({
       username: req.body.username,
       email: req.body.email,
-      password: req.body.password,
-      account_type: req.body.account_type,
-      class: req.body.class,
     }),
     req.body.password,
-    function (err, user) {
+    function (err, account) {
       if (err) return res.status(500).json({ err: err });
 
       passport.authenticate("local")(req, res, function () {
@@ -78,9 +75,9 @@ accountRouter.post("/login", (req, res, next) => {
       console.log(err);
       return next(err);
     }
-    if (!user) {
+    if (!account) {
       console.log(account);
-      console.log("no account");
+      console.log("authentication failure");
       return res.status(401).json({ err: info });
     }
     req.logIn(account, function (err) {
