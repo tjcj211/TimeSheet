@@ -1,5 +1,6 @@
 //Timothy Carta, Victoria Gorski, Julia Wilkinson
 var mongoose = require('mongoose');
+var passportLocalMongoose = require('passport-local-mongoose');
 var Schema = mongoose.Schema;
 
 var accountSchema = new Schema({
@@ -28,5 +29,8 @@ var accountSchema = new Schema({
 		required: true,
 	},
 });
-var accountSchema = mongoose.model('accounts', accountSchema);
-module.exports = accountSchema;
+var account = mongoose.model('accounts', accountSchema);
+
+accountSchema.plugin(passportLocalMongoose);
+
+module.exports = account;

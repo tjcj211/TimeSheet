@@ -6,11 +6,12 @@ let Class = require('../Models/class');
 const lessonSchema = require('../Models/lesson');
 let Lesson = require('../Models/lesson');
 let Record = require('../Models/record');
+const Verify = require('./verify');
 
 professorRouter
 	.route('/')
 	//Get all professor accounts
-	.get((req, res, next) => {
+	.get(Verify.verifyUser, function(req, res, next) {
 		Account.find({ account_type: 'PROFESSOR' })
 			.populate('class')
 			.exec()
@@ -24,7 +25,7 @@ professorRouter
 			});
 	})
 	//Add a new professor account
-	.post((req, res, next) => {
+	.post(Verify.verifyUser, function(req, res, next) {
 		const account = new Account({
 			username: req.body.username,
 			email: req.body.email,
@@ -47,7 +48,7 @@ professorRouter
 professorRouter
 	.route('/:accountId/')
 	//Get an account with a specific ID
-	.get((req, res, next) => {
+	.get(Verify.verifyUser, function(req, res, next) {
 		Account.findById(req.params.accountId)
 			.populate('class')
 			.exec()
@@ -61,7 +62,7 @@ professorRouter
 			});
 	})
 	//delete an account with a specific id
-	.delete((req, res, next) => {
+	.delete(Verify.verifyUser, function(req, res, next) {
 		Account.remove({ _id: req.params.accountId })
 			.exec()
 			.then((result) => {
@@ -72,13 +73,13 @@ professorRouter
 professorRouter
 	.route('/:accountId/classes')
 	//get all classes for the professor
-	.get((req, res, next) => {
+	.get(Verify.verifyUser, function(req, res, next) {
 		Account.findById(req.params.accountId, (err, account) => {
 			if (err) throw err;
-			res.json(account.class);
-		}).populate('class');
+			res.json(classes);
+		}).populate('lesson');
 	})
-	.post((req, res, next) => {
+	.post(Verify.verifyUser, function(req, res, next) {
 		const clas = new Class({
 			name: req.body.name,
 			class_code: req.body.class_code,
@@ -101,7 +102,7 @@ professorRouter
 professorRouter
 	.route('/:accountId/classes/:classId/')
 	//get a specific class by ID
-	.get((req, res, next) => {
+	.get(Verify.verifyUser, function(req, res, next) {
 		Class.findById(req.params.classId, (err, classes) => {
 			if (err) throw err;
 			res.json(classes);
@@ -111,13 +112,13 @@ professorRouter
 professorRouter
 	.route('/:accountId/classes/:classId/lessons')
 	//get all lessons for the given class
-	.get((req, res, next) => {
+	.get(Verify.verifyUser, function(req, res, next) {
 		Class.findById(req.params.classId, (err, clas) => {
 			if (err) throw err;
 			res.json(clas.lesson);
 		}).populate('lesson');
 	})
-	.post((req, res, next) => {
+	.post(Verify.verifyUser, function(req, res, next) {
 		const lesson = new Lesson({
 			name: req.body.name,
 			due_date: req.body.due_date,
@@ -140,7 +141,7 @@ professorRouter
 
 professorRouter
 	.route('/:accountId/classes/:classId/lessons/:lessonId')
-	.put((req, res, next) => {
+	.put(Verify.verifyUser, function(req, res, next) {
 		Lesson.remove({ _id: req.params.lessonId }).exec();
 		const lesson = new Lesson({
 			name: req.body.name,
@@ -162,7 +163,7 @@ professorRouter
 		}).exec();
 	})
 	//delete an lesson with a specific id
-	.delete((req, res, next) => {
+	.delete(Verify.verifyUser, function(req, res, next) {
 		Lesson.remove({ _id: req.params.lessonId })
 			.exec()
 			.then((result) => {
@@ -173,7 +174,7 @@ professorRouter
 professorRouter
 	.route('/:accountId/classes/:classId/lessons/:lessonId/records')
 	//get all records
-	.get((req, res, next) => {
+	.get(Verify.verifyUser, function(req, res, next) {
 		Lesson.findById(req.params.lessonId, (err, lessons) => {
 			if (err) throw err;
 			res.json(lessons.record);
