@@ -86,6 +86,10 @@ accountRouter.post("/login", (req, res, next) => {
       console.log("account in accounts: ", account);
 
       var token = Verify.getToken(account);
+      "secretKey",
+        {
+          expiresIn: "1h",
+        };
 
       res.status(200);
       res.send(token);

@@ -15,6 +15,7 @@ var studentRouter = require("./routes/student");
 var professorRouter = require("./routes/professor");
 
 var mongoose = require("mongoose");
+const SecretKey = "54544-76476-90490-87467";
 const connectionParams = {
   useNewUrlParser: true,
   useCreateIndex: true,

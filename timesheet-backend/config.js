@@ -6,5 +6,5 @@ exports.database = {
     process.env.DATABASE_SERVER ||
     "ser320.7xzxo.mongodb.net/timesheetDB?retryWrites=true&w=majority",
 
-  secretKey: "54544-76476-90490-87467",
+  //PrivateKey: "78789-90908-76765-87875",
 };

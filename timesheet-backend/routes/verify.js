@@ -1,8 +1,9 @@
 var jwt = require("jsonwebtoken");
 var config = require("../config.js");
+const secretKey = "54544-76476-90490-87467";
 
 exports.getToken = function (account) {
-  return jwt.sign(account, config.secretKey, {
+  return jwt.sign(account.toJSON(), secretKey, {
     expiresIn: 3600,
   });
 };
@@ -12,7 +13,7 @@ exports.verifyOrdinaryAccount = function (req, res, next) {
     req.body.token || req.query.token || req.headers["x-access-token"];
 
   if (token) {
-    jwt.verify(token, config.secretKey, function (err, decoded) {
+    jwt.verify(token, secretKey, function (err, decoded) {
       if (err) {
         var err = new Error("You are not authenticated !");
         err.status = 401;
