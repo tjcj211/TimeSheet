@@ -20,25 +20,33 @@ class LoginForm extends Form {
   };
 
   doSubmit = async () => {
+    console.log("do submit in loginform");
     try {
       const { data } = this.state;
+      console.log("await login before");
       await login.login(data.username, data.password);
+      console.log("await login after");
       //login.loginWithJwt(response.headers["x-access-token"]);
-      const { state } = this.props.location;
-      //const account = login.getCurrentAccount();
-      console.log("login form user ID = " + this.props.account._id);
 
-      window.location = state ? state.from.pathname : "/";
+      //const account = login.getCurrentAccount();
+      //console.log("login form user ID = " + this.props.account._id);
+
+      console.log("change location to classes on submit");
+
+      window.location.href = "/classes";
+      console.log("changed the class");
 
       console.log("url" + window.location.href);
 
       console.log("Going to page");
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
+        console.log("if statement in catch login");
         const errors = { ...this.state.errors };
         errors.username = ex.response.data;
         this.setState({ errors });
       }
+      console.log("catching something");
     }
   };
 

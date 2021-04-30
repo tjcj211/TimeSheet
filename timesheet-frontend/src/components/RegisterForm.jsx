@@ -23,18 +23,19 @@ class RegisterForm extends Form {
     console.log("do submit in registerform");
     try {
       const { data } = this.state;
+
       console.log("data: " + data.username);
       register(data.username, data.email, data.password, data.account_type);
       //login.loginWithJwt(response.headers["x-access-token"]);
 
       //const account = login.getCurrentAccount();
-      console.log("login form user ID = " + this.props.account._id);
 
       window.location.href = "/register";
       console.log("url" + window.location.href);
 
       console.log("Going to page");
     } catch (ex) {
+      console.log("catching something in register");
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
         errors.username = ex.response.data;

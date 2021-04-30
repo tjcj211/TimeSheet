@@ -8,6 +8,7 @@ const tokenKey = "token";
 http.setJwt(getJwt());
 
 export async function login(username, password) {
+  console.log("login function in service");
   const { data: jwt } = await http.post(apiEndpoint + "login", {
     username,
     password,
