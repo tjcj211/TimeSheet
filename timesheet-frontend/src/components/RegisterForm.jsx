@@ -20,14 +20,11 @@ class RegisterForm extends Form {
   };
 
   doSubmit = () => {
+    console.log("do submit in registerform");
     try {
       const { data } = this.state;
-      register.register(
-        data.username,
-        data.email,
-        data.password,
-        data.account_type
-      );
+      console.log("data: " + data.username);
+      register(data.username, data.email, data.password, data.account_type);
       //login.loginWithJwt(response.headers["x-access-token"]);
 
       //const account = login.getCurrentAccount();

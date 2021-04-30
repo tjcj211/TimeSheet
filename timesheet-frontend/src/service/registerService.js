@@ -6,12 +6,14 @@ const apiEndpoint = "http://localhost:3001/" + "account/";
 const tokenKey = "token";
 
 http.setJwt(getJwt());
+
 export async function register(username, email, password, account_type) {
+  console.log("register" + username);
   const { data: jwt } = await http.post(apiEndpoint + "register", {
-    username,
-    email,
-    password,
-    account_type,
+    username: username,
+    email: email,
+    password: password,
+    account_type: account_type,
   });
   localStorage.setItem(tokenKey, jwt);
 }

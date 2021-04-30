@@ -29,6 +29,7 @@ class LoginForm extends Form {
       console.log("login form user ID = " + this.props.account._id);
 
       window.location.href = "/classes";
+
       console.log("url" + window.location.href);
 
       console.log("Going to page");
