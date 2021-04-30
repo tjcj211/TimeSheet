@@ -50,6 +50,7 @@ accountRouter.post("/register", async function (req, res) {
     new Account({
       username: req.body.username,
       email: req.body.email,
+      account_type: req.body.account_type,
     }),
     req.body.password,
     function (err, account) {
@@ -86,10 +87,6 @@ accountRouter.post("/login", (req, res, next) => {
       console.log("account in accounts: ", account);
 
       var token = Verify.getToken(account);
-      "secretKey",
-        {
-          expiresIn: "1h",
-        };
 
       res.status(200);
       res.send(token);

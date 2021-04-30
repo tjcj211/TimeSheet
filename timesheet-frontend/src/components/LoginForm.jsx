@@ -27,7 +27,10 @@ class LoginForm extends Form {
 
       //const account = login.getCurrentAccount();
       console.log("login form user ID = " + this.props.account._id);
+
       window.location.href = "/classes";
+      console.log("url" + window.location.href);
+
       console.log("Going to page");
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {

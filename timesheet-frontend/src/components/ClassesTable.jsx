@@ -18,20 +18,20 @@ class ClassesTable extends Component {
   };
 
   async componentDidMount() {
-    const { data: account } = this.props;
+    const { account } = this.props;
     console.log("props = " + this.props.account);
     this.setState({ account });
 
-    switch (this.props.account.account_type) {
+    switch (this.state.account.account_type) {
       case "PROFESSOR":
-        const { data: professorClasses } = await getProfessorClasses(
+        const { professorClasses } = await getProfessorClasses(
           this.props.match.params.id
         );
         this.setState({ classes: professorClasses });
         break;
 
       case "STUDENT":
-        const { data: studentClasses } = await getStudentClasses(
+        const { studentClasses } = await getStudentClasses(
           this.props.match.params.id
         );
         this.setState({ classes: studentClasses });
@@ -65,8 +65,7 @@ class ClassesTable extends Component {
   };
 
   render() {
-    const accountType = this.props;
-    // const accountType = this.props.account.account_type;
+    const accountType = this.props.match.params.account_type;
     return (
       <React.Fragment>
         <table className="table">

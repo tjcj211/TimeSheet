@@ -32,10 +32,10 @@ exports.verifyOrdinaryAccount = function (req, res, next) {
   }
   console.log("user verified");
 };
-/* 
+
 exports.verifyProfessor = function (req, res, next) {
   console.log(req.decoded);
-  if (req.decoded._doc.isProfessor) {
+  if (req.decoded.isProfessor) {
     console.log("professor verified");
     next();
   } else {
@@ -43,4 +43,4 @@ exports.verifyProfessor = function (req, res, next) {
     err.status = 403;
     return next(err);
   }
-}; */
+};
