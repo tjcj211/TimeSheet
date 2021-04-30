@@ -10,6 +10,7 @@ import LessonsTable from "./components/LessonsTable";
 import Home from "./components/Home";
 import login from "./service/loginService";
 import Logout from "./components/logout";
+import NavBar from "./components/navBar";
 class App extends Component {
   constructor(props) {
     super(props);
@@ -26,6 +27,7 @@ class App extends Component {
 
     return (
       <div className="container">
+        <NavBar account={account} />
         <Switch>
           <Route
             exact
