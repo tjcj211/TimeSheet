@@ -1,19 +1,50 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "../common/form";
+import { register } from "../service/registerService";
 
 class RegisterForm extends Form {
+  constructor(props) {
+    super(props);
+  }
   state = {
-    data: { username: "", password: "", name: "" },
+    data: { username: "", email: "", password: "", account_type: "" },
     errors: {},
   };
 
   schema = {
-    username: Joi.string().required().email().label("Username"),
+    username: Joi.string().alphanum().min(3).max(30).label("Username"),
+    email: Joi.string().required().email().label("Email"),
     password: Joi.string().required().min(5).label("Password"),
+    account_type: Joi.string().required().label("PROFESSOR/STUDENT"),
   };
 
-  doSubmit = () => {};
+  doSubmit = () => {
+    try {
+      const { data } = this.state;
+      register.register(
+        data.username,
+        data.email,
+        data.password,
+        data.account_type
+      );
+      //login.loginWithJwt(response.headers["x-access-token"]);
+
+      //const account = login.getCurrentAccount();
+      console.log("login form user ID = " + this.props.account._id);
+
+      window.location.href = "/register";
+      console.log("url" + window.location.href);
+
+      console.log("Going to page");
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        const errors = { ...this.state.errors };
+        errors.username = ex.response.data;
+        this.setState({ errors });
+      }
+    }
+  };
 
   render() {
     return (
@@ -21,8 +52,9 @@ class RegisterForm extends Form {
         <h1>Register</h1>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("username", "Username")}
+          {this.renderInput("email", "Email")}
           {this.renderInput("password", "Password", "password")}
-          {this.renderInput("name", "Name")}
+          {this.renderInput("account_type", "PROFESSOR/STUDENT")}
           {this.renderButton("Register")}
         </form>
       </div>
