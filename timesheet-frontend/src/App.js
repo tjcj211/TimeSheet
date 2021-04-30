@@ -29,13 +29,13 @@ class App extends Component {
         <Switch>
           <Route
             exact
-            path="/"
+            path="/login"
             render={(props) => <LoginForm account={account} {...props} />}
           ></Route>
           <Route exact path="/logout" component={Logout} />
           <Route
             exact
-            path="/account/register"
+            path="/register"
             render={(props) => <RegisterForm account={account} {...props} />}
           ></Route>
           <Route exact path="/about" component={About}></Route>

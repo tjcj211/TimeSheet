@@ -24,11 +24,11 @@ class LoginForm extends Form {
       const { data } = this.state;
       await login.login(data.username, data.password);
       //login.loginWithJwt(response.headers["x-access-token"]);
-
+      const { state } = this.props.location;
       //const account = login.getCurrentAccount();
       console.log("login form user ID = " + this.props.account._id);
 
-      window.location.href = "/classes";
+      window.location = state ? state.from.pathname : "/";
 
       console.log("url" + window.location.href);
 
