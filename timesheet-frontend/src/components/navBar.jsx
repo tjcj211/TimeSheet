@@ -14,11 +14,12 @@ class NavBar extends Component {
         <button
           className="navbar-toggler collapsed"
           type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
           aria-controls="navbarNav"
           aria-expanded="false"
           aria-label="Toggle Navigation"
+          onClick="toggle-navigation"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
