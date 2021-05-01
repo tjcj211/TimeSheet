@@ -66,6 +66,7 @@ class ClassesTable extends Component {
 
   render() {
     const accountType = this.props.match.params.account_type;
+
     return (
       <React.Fragment>
         <table className="table">
@@ -73,8 +74,9 @@ class ClassesTable extends Component {
             <tr>
               <th>Class Name</th>
               {/*Conditional Render - If account is a Professor/Student*/}
-
-              {accountType === "PROFESSOR" ? <th>Class Code</th> : null}
+              <div>
+                {accountType === "PROFESSOR" ? <th>Class Code</th> : null}
+              </div>
             </tr>
           </thead>
           <tbody>
@@ -88,10 +90,11 @@ class ClassesTable extends Component {
                   </Link>
                 </td>
                 {/*Conditional Render - If account is a Professor/Student*/}
-
-                {accountType === "PROFESSOR" ? (
-                  <td>{clas.class_code}</td>
-                ) : null}
+                <div>
+                  {accountType === "PROFESSOR" ? (
+                    <td>{clas.class_code}</td>
+                  ) : null}
+                </div>
               </tr>
             ))}
           </tbody>
