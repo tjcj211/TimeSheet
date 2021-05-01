@@ -20,8 +20,8 @@ class ClassesTable extends Component {
   async componentDidMount() {
     /* const { account } = this.state.account;
     console.log("state account : " + this.state.account); */
-    //const { accountid: id } = this.props.account._id;
-    //this.setState({ id });
+    const { accountid: id } = this.props.account._id;
+    this.setState({ id });
     const { data: account } = await getAccount(this.props.account._id);
     console.log("props id " + this.props.account._id);
 
@@ -86,7 +86,7 @@ class ClassesTable extends Component {
   handleJoinClass = async (class_code) => {
     console.log("handle join class");
     const { data: clas } = await getClass(class_code);
-    await addClass(this.state.account._id, clas);
+    await addClass(this.props.account._id, clas);
     const classes = [clas[0], ...this.state.classes];
     this.setState({ classes });
   };
@@ -111,10 +111,8 @@ class ClassesTable extends Component {
             {this.state.classes.map((clas, index) => (
               <tr key={index}>
                 <td>
-                  <Link
-                    to={`/${this.state.account._id}/classes/${this.state.classes._id}`}
-                  >
-                    {this.state.classes.name}
+                  <Link to={`/${this.state.account._id}/classes/${clas._id}`}>
+                    {clas.name}
                   </Link>
                 </td>
                 {/*Conditional Render - If account is a Professor/Student*/}
