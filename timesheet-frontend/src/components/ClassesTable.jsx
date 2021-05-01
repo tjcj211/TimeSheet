@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 class ClassesTable extends Component {
   constructor(props) {
     super(props);
-    console.log("account = " + this.props.account);
+    //console.log("account with props = " + this.props.account);
     this.handleAddClass = this.handleAddClass.bind(this);
   }
   state = {
@@ -18,23 +18,44 @@ class ClassesTable extends Component {
   };
 
   async componentDidMount() {
-    const { account } = this.props;
-    console.log("props = " + this.props.account);
+    /* const { account } = this.state.account;
+    console.log("state account : " + this.state.account); */
+
+    const { data: account } = await getAccount(this.props.account._id);
+
+    //this.setState({ account });
+
+    //console.log("account type " + this.state.account.account_type);
+    //console.log("props account = " + this.props.account);
+
+    //console.log("data" + account);
     this.setState({ account });
+    //console.log("set state account: " + account);
 
     switch (this.state.account.account_type) {
       case "PROFESSOR":
-        const { professorClasses } = await getProfessorClasses(
-          this.props.match.params.id
+        console.log(
+          "case supposed to be professor: " + this.state.account.account_type
         );
-        this.setState({ classes: professorClasses });
+        console.log(this.props.account._id);
+        const { classes: professorClasses } = await getProfessorClasses(
+          this.props.account._id
+        );
+        this.setState({ professorClasses });
+        //console.log("professorclasses" + professorClasses);
+
         break;
 
       case "STUDENT":
-        const { studentClasses } = await getStudentClasses(
-          this.props.match.params.id
+        console.log(
+          "case supposed to be student: " + this.state.account.account_type
         );
-        this.setState({ classes: studentClasses });
+        console.log("the account id" + this.props.account._id);
+        const { classes: studentClasses } = await getStudentClasses(
+          this.props.account._id
+        );
+        this.setState({ studentClasses });
+        console.log("set state professor classes");
         break;
 
       default:
@@ -43,6 +64,7 @@ class ClassesTable extends Component {
   }
 
   handleAddClass = async (class_name) => {
+    console.log("handle add class");
     var randomClassCode =
       Math.floor(Math.random() * 100000) +
       "-" +
@@ -52,20 +74,25 @@ class ClassesTable extends Component {
       lesson: [],
       class_code: randomClassCode,
     };
-    const { data: clas } = await saveClass(this.props.match.params.id, obj);
+    const { data: clas } = await saveClass(this.props.account._id, obj);
+    console.log("await save class");
     const classes = [clas.result, ...this.state.classes];
     this.setState({ classes });
+    console.log("this.setstate classes");
   };
 
   handleJoinClass = async (class_code) => {
+    console.log("handle join class");
     const { data: clas } = await getClass(class_code);
-    await addClass(this.state.account._id, clas);
+    await addClass(this.props.account._id, clas);
     const classes = [clas[0], ...this.state.classes];
     this.setState({ classes });
   };
 
   render() {
-    const accountType = this.props.match.params.account_type;
+    const accountType = this.state.account.account_type;
+    console.log("account type render: " + accountType);
+    console.log("state classes" + this.state.account.class);
 
     return (
       <React.Fragment>
@@ -74,27 +101,23 @@ class ClassesTable extends Component {
             <tr>
               <th>Class Name</th>
               {/*Conditional Render - If account is a Professor/Student*/}
-              <div>
-                {accountType === "PROFESSOR" ? <th>Class Code</th> : null}
-              </div>
+
+              {accountType === "PROFESSOR" ? <th>Class Code</th> : null}
             </tr>
           </thead>
           <tbody>
             {this.state.classes.map((clas, index) => (
               <tr key={index}>
                 <td>
-                  <Link
-                    to={`/${this.props.match.params.id}/classes/${clas._id}`}
-                  >
+                  <Link to={`/${this.state.account._id}/classes/${clas._id}`}>
                     {clas.name}
                   </Link>
                 </td>
                 {/*Conditional Render - If account is a Professor/Student*/}
-                <div>
-                  {accountType === "PROFESSOR" ? (
-                    <td>{clas.class_code}</td>
-                  ) : null}
-                </div>
+
+                {accountType === "PROFESSOR" ? (
+                  <td>{clas.class_code}</td>
+                ) : null}
               </tr>
             ))}
           </tbody>
