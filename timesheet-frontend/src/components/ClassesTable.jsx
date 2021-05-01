@@ -20,8 +20,10 @@ class ClassesTable extends Component {
   async componentDidMount() {
     /* const { account } = this.state.account;
     console.log("state account : " + this.state.account); */
-
+    //const { accountid: id } = this.props.account._id;
+    //this.setState({ id });
     const { data: account } = await getAccount(this.props.account._id);
+    console.log("props id " + this.props.account._id);
 
     //this.setState({ account });
 
@@ -42,7 +44,7 @@ class ClassesTable extends Component {
           this.props.account._id
         );
         this.setState({ professorClasses });
-        //console.log("professorclasses" + professorClasses);
+        console.log("setprofessorclasses");
 
         break;
 
@@ -51,7 +53,7 @@ class ClassesTable extends Component {
           "case supposed to be student: " + this.state.account.account_type
         );
         console.log("the account id" + this.props.account._id);
-        const { classes: studentClasses } = await getStudentClasses(
+        const { studentClasses } = await getStudentClasses(
           this.props.account._id
         );
         this.setState({ studentClasses });
@@ -84,14 +86,14 @@ class ClassesTable extends Component {
   handleJoinClass = async (class_code) => {
     console.log("handle join class");
     const { data: clas } = await getClass(class_code);
-    await addClass(this.props.account._id, clas);
+    await addClass(this.state.account._id, clas);
     const classes = [clas[0], ...this.state.classes];
     this.setState({ classes });
   };
 
   render() {
     const accountType = this.state.account.account_type;
-    console.log("account type render: " + accountType);
+    console.log(accountType);
     console.log("state classes" + this.state.account.class);
 
     return (
@@ -109,8 +111,10 @@ class ClassesTable extends Component {
             {this.state.classes.map((clas, index) => (
               <tr key={index}>
                 <td>
-                  <Link to={`/${this.state.account._id}/classes/${clas._id}`}>
-                    {clas.name}
+                  <Link
+                    to={`/${this.state.account._id}/classes/${this.state.classes._id}`}
+                  >
+                    {this.state.classes.name}
                   </Link>
                 </td>
                 {/*Conditional Render - If account is a Professor/Student*/}

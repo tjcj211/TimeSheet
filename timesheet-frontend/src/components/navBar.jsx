@@ -29,7 +29,7 @@ class NavBar extends Component {
               {account && (
                 <React.Fragment>
                   <NavLink className="nav-item nav-link" to="/classes">
-                    {account.username}
+                    Classes
                   </NavLink>
                   <NavLink className="nav-item nav-link" to="/logout">
                     Logout
