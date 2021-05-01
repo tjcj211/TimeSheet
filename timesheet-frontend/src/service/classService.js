@@ -1,3 +1,6 @@
+/*
+ * Timothy Carta, Victoria Gorski, Julia Wilkinson
+ */
 import http from './httpService';
 const apiUrl = 'http://localhost:3001';
 

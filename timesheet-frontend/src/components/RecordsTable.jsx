@@ -1,3 +1,6 @@
+/*
+ * Timothy Carta, Victoria Gorski, Julia Wilkinson
+ */
 import React, { Component } from 'react';
 import { getProfessorRecords } from '../service/professorService';
 class RecordsTable extends Component {

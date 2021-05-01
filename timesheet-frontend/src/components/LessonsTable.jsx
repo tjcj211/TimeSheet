@@ -1,3 +1,6 @@
+/*
+ * Timothy Carta, Victoria Gorski, Julia Wilkinson
+ */
 import React, { Component } from 'react';
 import { getProfessorLessons, saveLesson } from '../service/professorService';
 import { getStudentLessons, saveRecord } from '../service/studentService';

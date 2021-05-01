@@ -1,3 +1,6 @@
+/*
+ * Timothy Carta, Victoria Gorski, Julia Wilkinson
+ */
 import React, { Component } from 'react';
 class CreateLessonForm extends Component {
 	constructor(props) {

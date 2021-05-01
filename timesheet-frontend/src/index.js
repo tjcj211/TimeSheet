@@ -1,3 +1,6 @@
+/*
+ * Timothy Carta, Victoria Gorski, Julia Wilkinson
+ */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
