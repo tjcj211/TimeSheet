@@ -94,4 +94,17 @@ accountRouter.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
+accountRouter.route('/:username').get((req, res, next) => {
+	Account.find({ username: req.params.username })
+		.exec()
+		.then((account) => {
+			res.status(200).json(account);
+		})
+		.catch((err) => {
+			res.status(500).json({
+				error: err,
+			});
+		});
+});
+
 module.exports = accountRouter;

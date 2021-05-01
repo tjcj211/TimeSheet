@@ -44,3 +44,7 @@ export function addClass(studentId, clas) {
 		return http.put(classUrl(studentId, clas[0]._id), clas);
 	}
 }
+
+export function saveRecord(professorId, classId, lessonId, record) {
+	return http.post(recordsUrl(professorId, classId, lessonId), record);
+}

@@ -14,6 +14,8 @@ var classRouter = require("./routes/classes");
 var studentRouter = require("./routes/student");
 var professorRouter = require("./routes/professor");
 
+var recordRouter = require("./routes/record");
+
 var mongoose = require("mongoose");
 const SecretKey = "54544-76476-90490-87467";
 const connectionParams = {
@@ -62,6 +64,8 @@ app.use("/account", accountRouter);
 app.use("/classes", classRouter);
 app.use("/student", studentRouter);
 app.use("/professor", professorRouter);
+
+app.use("/records", recordRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -11,6 +11,7 @@ import Home from "./components/Home";
 import login from "./service/loginService";
 import Logout from "./components/logout";
 import NavBar from "./components/navBar";
+import LoginScreen from "./components/LoginScreen";
 class App extends Component {
   constructor(props) {
     super(props);

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { getProfessorLessons, saveLesson } from '../service/professorService';
-import { getStudentLessons } from '../service/studentService';
+import { getStudentLessons, saveRecord } from '../service/studentService';
+import { getStudentRecords } from '../service/recordService';
 import { getAccount } from '../service/accountService';
 import CreateLessonForm from './CreateLessonForm';
+import CreateRecordForm from './CreateRecordForm';
 import RecordsTable from './RecordsTable';
 class LessonsTable extends Component {
 	constructor(props) {
@@ -12,6 +14,7 @@ class LessonsTable extends Component {
 	state = {
 		lessons: [],
 		account: {},
+		records: [],
 	};
 	async componentDidMount() {
 		const { data: account } = await getAccount(
@@ -35,10 +38,31 @@ class LessonsTable extends Component {
 					this.props.match.params.id,
 					this.props.match.params.classId
 				);
-				this.setState({ lessons: studentLessons });
+				const { data: studentRecords } = await getStudentRecords(
+					this.props.match.params.id
+				);
+				this.setState({
+					lessons: studentLessons,
+					records: studentRecords,
+				});
 				break;
 			default:
 				break;
+		}
+		this.addAllLessons();
+	}
+
+	async addAllLessons() {
+		if (this.state.lessons.length === 0) {
+			for (let index = 1; index <= 40; index++) {
+				var name = '';
+				if (index < 10) {
+					name = 'Lesson 0' + index;
+				} else {
+					name = 'Lesson ' + index;
+				}
+				this.handleAddLesson(name, null);
+			}
 		}
 	}
 
@@ -58,53 +82,91 @@ class LessonsTable extends Component {
 		this.setState({ lessons });
 	};
 
+	handleAddRecord = async (record_type, minutes, lesson) => {
+		const obj = {
+			type: record_type,
+			minutes: minutes,
+			studentId: this.props.match.params.id,
+		};
+		await saveRecord(
+			this.props.match.params.id,
+			this.props.match.params.classId,
+			lesson._id,
+			obj
+		);
+	};
+
+	sortLessonsByName() {
+		let lessons = [...this.state.lessons];
+		return lessons.sort(function (a, b) {
+			var x = a['name'];
+			var y = b['name'];
+			return x < y ? -1 : x > y ? 1 : 0;
+		});
+	}
+
+	countCompletedRecords(lesson) {
+		const records = [...this.state.records];
+		return records.filter((record) => {
+			return lesson.record.includes(record._id);
+		}).length;
+	}
+
 	render() {
 		const accountType = this.state.account.account_type;
+		const lessons = this.sortLessonsByName();
 		return (
 			<React.Fragment>
 				<table className="table">
 					<thead>
 						<tr>
 							<th>Lesson Name</th>
-							<th>Due Date</th>
 						</tr>
 					</thead>
 					<tbody>
-						{this.state.lessons.map((lesson, index) => (
+						{lessons.map((lesson, index) => (
 							<React.Fragment>
 								<tr key={index}>
 									<td>{lesson.name}</td>
-									<td>{lesson.due_date}</td>
+									{/* <td>{lesson.due_date}</td> */}
 								</tr>
 								<tr className="text-center">
 									{/*Conditional Render - If account is a Professor/Student*/}
 									<div>
-										{accountType === 'PROFESSOR'
-											? lesson.record &&
-											  lesson.record
-													.length !==
-													0 && (
-													<RecordsTable
-														professorId={
-															this
-																.props
-																.match
-																.params
-																.id
-														}
-														classId={
-															this
-																.props
-																.match
-																.params
-																.classId
-														}
-														lessonId={
-															lesson._id
-														}
-													/>
-											  )
-											: 'DEBUG: ADD RECORD IF NOT PRESENT'}
+										{accountType ===
+										'PROFESSOR' ? (
+											lesson.record &&
+											lesson.record.length !==
+												0 && (
+												<RecordsTable
+													professorId={
+														this.props
+															.match
+															.params
+															.id
+													}
+													classId={
+														this.props
+															.match
+															.params
+															.classId
+													}
+													lessonId={
+														lesson._id
+													}
+												/>
+											)
+										) : this.countCompletedRecords(
+												lesson
+										  ) === 0 ? (
+											<CreateRecordForm
+												handleAddRecord={
+													this
+														.handleAddRecord
+												}
+												lesson={lesson}
+											/>
+										) : null}
 									</div>
 								</tr>
 							</React.Fragment>
